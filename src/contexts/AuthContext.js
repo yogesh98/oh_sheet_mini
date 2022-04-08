@@ -23,7 +23,6 @@ export function AuthProvider({ children }) {
       .then(() => {
         return signInWithEmailAndPassword(auth, email, password);
       })
-    // return signInWithEmailAndPassword(auth, email, password);
   }
 
   function logout() {
@@ -46,7 +45,6 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    // const unsubscribe = auth.onAuthStateChanged(user => {
     const authUser = Object.keys(window.sessionStorage).filter(item => item.startsWith('firebase:authUser'))[0]
     if (authUser) {
       setCurrentUser(JSON.parse(window.sessionStorage.getItem(authUser)));
