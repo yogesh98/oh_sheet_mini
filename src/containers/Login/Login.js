@@ -31,7 +31,7 @@ export default function Login() {
     }
     setLoading(false);
   }
-  console.log("hello");
+
   return (  
     <Container
       className="d-flex align-items-center justify-content-center"
