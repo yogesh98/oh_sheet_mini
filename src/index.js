@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './containers/App/App';
+import App from './views/App/App';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 require('dotenv').config()
 
