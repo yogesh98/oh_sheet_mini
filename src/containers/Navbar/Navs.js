@@ -1,18 +1,20 @@
 import React from "react";
 import { Container, Navbar, Nav } from "react-bootstrap"
 import { useAuth } from "contexts/AuthContext";
+import {  useNavigate  } from "react-router-dom";
 
 
 export default function Navs() {
     const { logout } = useAuth();
+    const navigate = useNavigate();
+
 
     const handleSelect= (eventKey) => {
         console.log(eventKey);
         if (eventKey === "logout") {
-            logout().then(() => {
-                console.log("hello");
-                // window.location.reload();
-            });
+            logout();
+        } else if(eventKey === "dashboard") {
+            navigate("/owner/dashboard");
         }
     };
 
@@ -20,14 +22,16 @@ export default function Navs() {
     return (
         <>
             <Navbar bg="dark" variant="dark">
-                <Container>
-                    <Navbar.Brand href="#home">📜</Navbar.Brand>
-                    <Nav className="me-auto" onSelect={handleSelect}>
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                        <Nav.Link eventKey="logout">Logout</Nav.Link>
-                    </Nav>
+                <Container >
+                    <Navbar.Brand >📜</Navbar.Brand>
+                    <Container className="d-flex align-items-center justify-content-space-between">
+                        <Nav className="" onSelect={handleSelect}>
+                            <Nav.Link eventKey="dashboard">Home</Nav.Link>
+                        </Nav>
+                        <Nav className="" onSelect={handleSelect}>
+                            <Nav.Link eventKey="logout">Logout</Nav.Link>
+                        </Nav>
+                    </Container>
                 </Container>
             </Navbar>
         </>

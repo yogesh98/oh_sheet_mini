@@ -8,15 +8,15 @@ const Dashboard = React.lazy(() => import('containers/Dashboard/CueCallerDashboa
 
 const NotFound = React.lazy(() => import('views/App/NotFound'));
 
-export default function CueCaller() {
+export default function Owner() {
   return (
-        <>
-            <Navs />
-            <Routes>
-                <Route path="/dashboard" element={<Dashboard />}/>
-                <Route element={<NotFound />}/>
-            </Routes>
-        </>
+    <>
+        <Navs />
+        <Routes>
+            <Route path="/dashboard" element={<Dashboard />}/>
+            <Route element={<NotFound />}/>
+        </Routes>
+    </>
   );
 }
 

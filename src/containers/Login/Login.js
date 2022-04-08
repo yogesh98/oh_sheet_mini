@@ -13,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     if (currentUser.email) {
-      navigate("/cuecaller/dashboard");
+      navigate("/owner/dashboard");
     }
   }, [currentUser, navigate])
 
@@ -56,7 +56,7 @@ export default function Login() {
               </Button>
             </Form>
             <div className="w-100 text-center mt-3">
-              <Link to="/forgot-password">Forgot Password?</Link>
+              {/* <Link to="/forgot-password">Forgot Password?</Link> */}
             </div>
           </Card.Body>
         </Card>
