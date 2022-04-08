@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "firebase"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, browserSessionPersistence, setPersistence } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext()
@@ -19,7 +19,11 @@ export function AuthProvider({ children }) {
   }
 
   function login(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+    return setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+    // return signInWithEmailAndPassword(auth, email, password);
   }
 
   function logout() {
@@ -43,12 +47,13 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // const unsubscribe = auth.onAuthStateChanged(user => {
+    const authUser = Object.keys(window.sessionStorage).filter(item => item.startsWith('firebase:authUser'))[0]
+    if (authUser) {
+      setCurrentUser(JSON.parse(window.sessionStorage.getItem(authUser)));
+    } else {
       setCurrentUser({});
-      // setCurrentUser(user);
-      setLoading(false);
-    // })
-
-    // return unsubscribe;
+    }
+    setLoading(false);
   }, [])
 
   const value = {
