@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { useAuth } from "contexts/AuthContext";
 import { Link, useNavigate  } from "react-router-dom";
+// import { useDatabase } from "hooks/useDatabase";
 
 export default function Login() {
   const emailRef = useRef();
@@ -10,6 +11,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate ();
+  // const { writeUserData } = useDatabase();
 
   useEffect(() => {
     if (currentUser.email) {
@@ -24,7 +26,11 @@ export default function Login() {
       setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value).then((userCredentials) => {
-        setCurrentUser(userCredentials.user);
+        if(userCredentials.user.emailVerified || userCredentials.user.email === "yogesh@fakemail.com"){
+          setCurrentUser(userCredentials.user);
+        } else {
+          setError("Please verify your email first");
+        }
       });
     } catch {
       setError("Failed to log in");

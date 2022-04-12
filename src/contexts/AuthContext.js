@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "firebase"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, browserSessionPersistence, setPersistence } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, browserSessionPersistence, setPersistence, sendEmailVerification } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext()
@@ -14,15 +14,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password)
+  async function signup(email, password) {
+    const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+    await sendEmailVerification(userCredentials.user);
+    return userCredentials;
   }
 
   function login(email, password) {
-    return setPersistence(auth, browserSessionPersistence)
-      .then(() => {
+    return setPersistence(auth, browserSessionPersistence).then(() => {
         return signInWithEmailAndPassword(auth, email, password);
-      })
+    });
   }
 
   function logout() {
@@ -45,7 +46,7 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const authUser = Object.keys(window.sessionStorage).filter(item => item.startsWith('firebase:authUser'))[0]
+    const authUser = Object.keys(window.sessionStorage).filter(item => item.startsWith('firebase:authUser'))[0];
     if (authUser) {
       setCurrentUser(JSON.parse(window.sessionStorage.getItem(authUser)));
     } else {
