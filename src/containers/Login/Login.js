@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Form, Button, Card, Alert, Container } from "react-bootstrap";
+import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "contexts/AuthContext";
 import { Link, useNavigate  } from "react-router-dom";
 // import { useDatabase } from "hooks/useDatabase";
@@ -39,9 +39,8 @@ export default function Login() {
   }
 
   return (  
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
+    <div
+      className="d-flex align-items-center justify-content-center h-100"
 	  >
 		  <div className="w-100" style={{ maxWidth: "400px" }}>
         <Card>
@@ -70,6 +69,6 @@ export default function Login() {
           Need an account? <Link to="/signup">Sign Up</Link>
         </div>
 		  </div>
-    </Container>
+    </div>
   )
 }

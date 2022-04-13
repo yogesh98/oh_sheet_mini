@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Navs from 'containers/Navbar/Navs';
+import Layout from 'views/Owner/Layout';
 const Dashboard = React.lazy(() => import('containers/Dashboard/CueCallerDashboard'));
 
 const NotFound = React.lazy(() => import('views/App/NotFound'));
@@ -11,10 +11,11 @@ const NotFound = React.lazy(() => import('views/App/NotFound'));
 export default function Owner() {
   return (
     <>
-        <Navs />
         <Routes>
-            <Route path="/dashboard" element={<Dashboard />}/>
-            <Route element={<NotFound />}/>
+            <Route path="/" element={<Layout />}>
+              <Route path="/dashboard" element={<Dashboard />}/>
+              <Route element={<NotFound />}/>
+            </Route>
         </Routes>
     </>
   );
