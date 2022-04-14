@@ -1,12 +1,18 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, {useEffect} from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
-//todo: Create private routes for authenticated users
+export default function App() {
+	const navigate = useNavigate();
+	const location = useLocation();
+	useEffect(() => {
+		if (location.pathname === "/") {
+			navigate("/login");
+		}
+	});
 
-export default function App({ children }) {
-  return (
-	<div style={{ height: "100vh" }}>
-		<Outlet />
-	</div>
-  );
+	return (
+		<div style={{ height: "100vh" }}>
+			<Outlet />
+		</div>
+  	);
 }
