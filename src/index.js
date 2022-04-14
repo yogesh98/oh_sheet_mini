@@ -46,7 +46,6 @@ ReactDOM.render(
 
 function RequireAuth({ children, redirectTo }) {
 	const {currentUser} = useAuth();
-	console.log(currentUser);
 	return currentUser.email ? children : <Navigate  to={redirectTo}/>;
 }
 
