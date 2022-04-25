@@ -10,7 +10,7 @@ export function useSheets() {
 
     useEffect(() => {
         readUserData('sheets', setSheetIds);
-    }, []);
+    }, [readUserData]);
     
     useEffect(() => {
         if(sheetIds){
@@ -46,7 +46,7 @@ export function useSheets() {
                 const spreadsheetId = sheetUrl.match(/[-\w]{25,}/)[0];
                 console.log(spreadsheetId);
                 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
-                const data = fetch(url).then(response => {
+                fetch(url).then(response => {
                     return response.json();
                 }).then(data => {
                     writeUserData('sheets', sheetIds ? [...sheetIds, spreadsheetId] : [spreadsheetId]);
@@ -58,5 +58,5 @@ export function useSheets() {
         }
     };
 
-  return {sheets, addNewSheet, removeSheet};
+  return {sheets, addNewSheet, removeSheet, loading};
 }
