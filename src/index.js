@@ -11,6 +11,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
@@ -24,6 +26,7 @@ ReactDOM.render(
   	<Suspense fallback={<span>Loading...</span>}>
 		<Router>
 			<AuthProvider>
+        <ToastContainer />
 				<Routes>
 					<Route path="/" element={<App />}>
             <Route path="login" element={<Login />}/>

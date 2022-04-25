@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "contexts/AuthContext";
 import { Link, useNavigate  } from "react-router-dom";
-// import { useDatabase } from "hooks/useDatabase";
+import { useDatabase } from "hooks/useDatabase";
 
 export default function Login() {
   const emailRef = useRef();
@@ -11,13 +11,14 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate ();
-  // const { writeUserData } = useDatabase();
+  const { writeUserData } = useDatabase();
 
   useEffect(() => {
     if (currentUser.email) {
+      writeUserData('loggedIn', true);
       navigate("/owner/dashboard");
     }
-  }, [currentUser, navigate])
+  }, [currentUser, navigate, writeUserData])
 
   async function handleSubmit(e) {
     e.preventDefault();

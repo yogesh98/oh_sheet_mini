@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import Layout from 'views/Owner/Layout';
-const Dashboard = React.lazy(() => import('containers/Dashboard/CueCallerDashboard'));
+const Dashboard = React.lazy(() => import('containers/Dashboard/OwnerDashboard'));
 
 const NotFound = React.lazy(() => import('views/App/NotFound'));
 
