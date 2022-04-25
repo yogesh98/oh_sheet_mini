@@ -44,13 +44,17 @@ export function useSheets() {
         if(sheetUrl){
             try {
                 const spreadsheetId = sheetUrl.match(/[-\w]{25,}/)[0];
-                console.log(spreadsheetId);
-                const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
-                fetch(url).then(response => {
-                    return response.json();
-                }).then(data => {
-                    writeUserData('sheets', sheetIds ? [...sheetIds, spreadsheetId] : [spreadsheetId]);
-                });
+                if(!sheetIds.includes(spreadsheetId)){
+                    console.log(spreadsheetId);
+                    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
+                    fetch(url).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        writeUserData('sheets', sheetIds ? [...sheetIds, spreadsheetId] : [spreadsheetId]);
+                    });
+                } else {
+                    toast.error('Sheet already exists');
+                }
             } catch (exception) {
                 console.error(exception);
                 toast.error("error fetching sheet, please check your url");
