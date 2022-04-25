@@ -14,7 +14,7 @@ export default function Owner() {
         <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />}/>
-              <Route element={<NotFound />}/>
+              <Route path="*" element={<NotFound />}/>
             </Route>
         </Routes>
     </>

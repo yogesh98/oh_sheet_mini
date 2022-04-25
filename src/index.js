@@ -36,7 +36,7 @@ ReactDOM.render(
                 <OwnerView />
               </RequireAuth>
             }/>
-            <Route element={<NotFound />}/>
+            <Route path="*" element={<NotFound />}/>
           </Route>
 				</Routes>
 			</AuthProvider>
