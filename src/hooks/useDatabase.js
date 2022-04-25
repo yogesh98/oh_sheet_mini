@@ -1,4 +1,4 @@
-// import { useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { useAuth } from "contexts/AuthContext";
 
@@ -11,7 +11,7 @@ export function useDatabase() {
       set(ref(db, `users/${userId}/${path}`), data);
     };
     
-    const readUserData = async (path, updateFunction) => {
+    const readUserData = useCallback (async (path, updateFunction) => {
       const db = getDatabase();
       const userId = currentUser.uid;
       const userDataRef = ref(db, `users/${userId}/${path}`);
@@ -20,7 +20,7 @@ export function useDatabase() {
         // console.log(data);
         updateFunction(data);
       });
-    };
+    },[currentUser]);
 
   return {writeUserData, readUserData};
 }
