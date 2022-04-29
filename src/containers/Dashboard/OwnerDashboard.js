@@ -1,12 +1,17 @@
-import React, {useState} from "react";
-import { Card, Button, Form } from "react-bootstrap";
+import React, {useState} from "react";import { Card, Button, Form } from "react-bootstrap";
 import { useSheets } from "hooks/useSheets";
 import ModalComponent from "components/Modal/ModalComponent";
+import { useNavigate, Link } from "react-router-dom";
+import LoaderComponent from "components/Loader/LoaderComponent";
 
 export default function Dashboard() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newSheetUrl, setNewSheetUrl] = useState(null);
-  const { sheets, addNewSheet, removeSheet } = useSheets();
+  const [openSheets, setOpenSheets] = useState({});
+
+  const { sheets, addNewSheet, removeSheet, loading } = useSheets();
+  console.log(sheets);
+  let navigate = useNavigate();
 
   const parseGoogleSheet = () => {
     addNewSheet(newSheetUrl);
@@ -25,31 +30,53 @@ export default function Dashboard() {
     );
   }
 
+  const toggleSheeet = (spreadsheetId) => () => {
+    if(openSheets[spreadsheetId]) {
+      setOpenSheets({...openSheets, [spreadsheetId]: false});
+    } else {
+      setOpenSheets({...openSheets, [spreadsheetId]: true});
+    }
+  }
+
+  if(loading){
+    return <LoaderComponent />
+  }
+
+
   return (
-    <>
-      <div className="d-flex flex-column h-100">
-        <Button onClick={() => setShowAddModal(true)} variant="primary">Add New</Button>
-        <div className="d-flex align-items-center justify-content-center h-100 flex-wrap">
-          {sheets ? sheets.map((sheet, index) => {
-              return (
-                <Card key={sheet.id}>
-                  <Card.Body>
-                    <Card.Title>{sheet.title}</Card.Title>
-                    <Card.Text>{sheet.description}</Card.Text>
-                    <Button onClick={removeSheet(index)} variant="primary">remove</Button>
-                  </Card.Body>
-                </Card>
-              );
-            })
-          : null}
-          {/*<Card>
-            <Card.Body>
-                Under Construction
-            </Card.Body>
-        </Card>*/}
-        </div>
+    <div className="m-2">
+      <Button className="mb-2 w-100" onClick={() => setShowAddModal(true)}>Add new sheet</Button>
+      <div className="overflow-auto">
+        {sheets ? sheets.map((sheet, index) => {
+          return (
+            <Card onClick={toggleSheeet(sheet.spreadsheetId)} className="mb-2" key={sheet.spreadsheetId}>
+              <Card.Body>
+                <div className="d-flex justify-content-between">
+                  <Card.Title>{sheet.properties.title}</Card.Title>
+                  <div>
+                    <Button onClick={toggleSheeet(sheet.spreadsheetId)} variant="primary">{openSheets[sheet.spreadsheetId] ? 'Close' : 'Open' }</Button>
+                    <Button onClick={removeSheet(index)} variant="Danger">remove</Button>
+                  </div>
+                </div>
+                {/* openSheets[sheet.spreadsheetId] && <iframe src={`https://docs.google.com/spreadsheets/d/${sheet.spreadsheetId}/edit#gid=0`} width="100%" height="500px" frameBorder="0"></iframe> */}
+                {openSheets[sheet.spreadsheetId] ? 
+                  <div className="d-flex justify-content-between"> 
+                    {sheet.sheets.map((page, index) => {
+                      return (
+                        <div key={index}>
+                          <Link to={`/owner/cuecontroller/${sheet.spreadsheetId}/${page.properties.title}`}>{page.properties.title}</Link>
+                        </div>
+                      )
+                    })}
+                  </div>
+                : null}
+              </Card.Body>
+            </Card>
+          );
+        })
+        : null}
       </div>
       <ModalComponent show={showAddModal} onClose={() => setShowAddModal(false)} title="Enter public google sheets link" body={renderGoogleSheetsInput()} onAction={parseGoogleSheet}/>
-    </>
+    </div>
   )
 }

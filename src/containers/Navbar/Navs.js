@@ -32,7 +32,7 @@ export default function Navs() {
 
     return (
         <>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container className="d-flex align-items-center justify-content-between" fluid>
                     <div className="d-flex align-items-center justify-content-start">
                         <Navbar.Brand >📜</Navbar.Brand>

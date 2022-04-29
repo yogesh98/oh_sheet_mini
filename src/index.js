@@ -11,6 +11,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
+import LoaderComponent from "components/Loader/LoaderComponent";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Login = React.lazy(() => import('containers/Login/Login'));
@@ -23,7 +24,7 @@ require('dotenv').config()
 
 ReactDOM.render(
   <React.StrictMode>
-  	<Suspense fallback={<span>Loading...</span>}>
+  	<Suspense fallback={<LoaderComponent />}>
 		<Router>
 			<AuthProvider>
         <ToastContainer />
