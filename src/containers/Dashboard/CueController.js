@@ -1,10 +1,17 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
+import { useSheet } from 'hooks/useSheets';
+import LoaderComponent from "components/Loader/LoaderComponent";
 
 const CueController = () => {
-    const params = useParams();
-    const [password, setPassword] = useState(null);
-    console.log(params);
+    const {spreadsheetId, sheetName} = useParams();
+    const {sheet, loading} = useSheet(spreadsheetId, sheetName);
+    console.log(sheet);
+
+    if(loading){
+        return <LoaderComponent />
+    }
+    
     return (
         <div>
             <h1>Cue Controller</h1>

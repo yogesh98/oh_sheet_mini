@@ -1,7 +1,7 @@
 import React, {useState} from "react";import { Card, Button, Form } from "react-bootstrap";
 import { useSheets } from "hooks/useSheets";
 import ModalComponent from "components/Modal/ModalComponent";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoaderComponent from "components/Loader/LoaderComponent";
 
 export default function Dashboard() {
@@ -10,8 +10,6 @@ export default function Dashboard() {
   const [openSheets, setOpenSheets] = useState({});
 
   const { sheets, addNewSheet, removeSheet, loading } = useSheets();
-  console.log(sheets);
-  let navigate = useNavigate();
 
   const parseGoogleSheet = () => {
     addNewSheet(newSheetUrl);
@@ -60,7 +58,7 @@ export default function Dashboard() {
                 </div>
                 {/* openSheets[sheet.spreadsheetId] && <iframe src={`https://docs.google.com/spreadsheets/d/${sheet.spreadsheetId}/edit#gid=0`} width="100%" height="500px" frameBorder="0"></iframe> */}
                 {openSheets[sheet.spreadsheetId] ? 
-                  <div className="d-flex justify-content-between"> 
+                  <div className="d-flex flex-column"> 
                     {sheet.sheets.map((page, index) => {
                       return (
                         <div key={index}>

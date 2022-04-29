@@ -11,7 +11,6 @@ export function useSheets() {
     useEffect(() => {
         readUserData('sheets', setSheetIds);
     }, [readUserData]);
-    // const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
 
     useEffect(() => {
         if(sheetIds){
@@ -44,7 +43,7 @@ export function useSheets() {
         if(sheetUrl){
             try {
                 const spreadsheetId = sheetUrl.match(/[-\w]{25,}/)[0];
-                if(!sheetIds.includes(spreadsheetId) || true){
+                if(!sheetIds.includes(spreadsheetId)){
                     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
                     fetch(url).then(response => {
                         return response.json();
@@ -62,4 +61,25 @@ export function useSheets() {
     };
 
   return {sheets, addNewSheet, removeSheet, loading};
+}
+
+
+export function useSheet(spreadsheetId, sheetName) {
+    const [sheet, setSheet] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if(spreadsheetId && sheetName){
+            setLoading(true);
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
+            fetch(url).then(response => {
+                return response.json();
+            }).then(data => {                
+                setSheet(data);
+                setLoading(false);
+            });
+        }
+    }, [spreadsheetId, sheetName]);
+
+    return {sheet, loading};
 }
