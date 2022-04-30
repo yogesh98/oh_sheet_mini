@@ -15,7 +15,7 @@ export default function Navs() {
 
     // useEffect(() => {
     //     if (currentUser) {
-    //         readUserData("", setUserData);
+    //         listenUserData("", setUserData);
     //     }
     // }, [currentUser]);
 

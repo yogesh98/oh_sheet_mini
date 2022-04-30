@@ -4,13 +4,13 @@ import {useDatabase} from './useDatabase';
 
 export function useSheets() {
     const [sheets, setSheets] = useState([]);
-    const { writeUserData, readUserData } = useDatabase();
+    const { writeUserData, listenUserData } = useDatabase();
     const [loading, setLoading] = useState(true);
     const [sheetIds, setSheetIds] = useState(null);
 
     useEffect(() => {
-        readUserData('sheets', setSheetIds);
-    }, [readUserData]);
+        listenUserData('sheets', setSheetIds);
+    }, [listenUserData]);
 
     useEffect(() => {
         if(sheetIds){
