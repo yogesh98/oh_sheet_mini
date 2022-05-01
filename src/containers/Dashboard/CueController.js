@@ -26,11 +26,14 @@ const CueController = () => {
         cueData['current'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[1][i], r), {});
         cueData['next'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[2][i], r), {});
         cueData['currentPtr'] = 1;
+        cueData['command'] = 'reset';
         setCueData(cueData);
-    }, [sheet]);
+        // writeCueData(spreadsheetId, sheetName, cueData);
+    }, [sheet]); //, writeCueData, spreadsheetId, sheetName]);
 
     useEffect(() => {
         getCueData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then(data => {
+            console.log(data);
             if(data){
                 setCueData(data);
             } else if(sheet) {
@@ -48,11 +51,27 @@ const CueController = () => {
         newCueData['previous'] = cueData['current'];
         newCueData['current'] = cueData['next'];
         newCueData['currentPtr'] = cueData['currentPtr'] + 1;
+        newCueData['command'] = 'next';
         newCueData['next'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[newCueData['currentPtr'] + 1][i], r), {});
         if(typeof newCueData['next'].id === 'undefined') {
             newCueData['next'] = {};
         }
         setCueData(newCueData);
+        // writeCueData(spreadsheetId, sheetName, cueData);
+    }
+
+    const prevCue = () => {
+        let newCueData = {...cueData};
+        newCueData['next'] = cueData['current'];
+        newCueData['current'] = cueData['previous'];
+        newCueData['currentPtr'] = cueData['currentPtr'] - 1;
+        newCueData['command'] = 'previous';
+        newCueData['previous'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[newCueData['currentPtr'] - 1][i], r), {});
+        if(typeof newCueData['previous'].id === 'undefined' || newCueData['currentPtr'] - 1 === 0) {
+            newCueData['previous'] = {};
+        }
+        setCueData(newCueData);
+        // writeCueData(spreadsheetId, sheetName, cueData);
     }
 
 
@@ -66,7 +85,8 @@ const CueController = () => {
             <CueComponent key={cueData.current?.id} cue={cueData.current} />
             <CueComponent key={cueData.next?.id} cue={cueData.next} />
             <Button onClick={() => resetCueData()}>Reset</Button>
-            <Button onClick={() => nextCue()}>next</Button>
+            <Button onClick={() => prevCue()}>Prev</Button>
+            <Button onClick={() => nextCue()}>Next</Button>
         </div>
     );
 };

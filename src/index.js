@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
-
+const Operator = React.lazy(() => import('views/Operator/Operator'));
 const NotFound = React.lazy(() => import('views/App/NotFound'));
 require('dotenv').config()
 
@@ -37,6 +37,7 @@ ReactDOM.render(
                 <OwnerView />
               </RequireAuth>
             }/>
+            <Route path="viewer/*" element={<Operator />}/>
             <Route path="*" element={<NotFound />}/>
           </Route>
 				</Routes>

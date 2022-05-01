@@ -41,6 +41,7 @@ export function useDatabase() {
       const db = getDatabase();
       const cueDataRef = ref(db, `cues/${path}`);
       return get(cueDataRef).then(snapshot => {
+        console.log(snapshot.val());
         return snapshot.val();
       });
     },[]);
