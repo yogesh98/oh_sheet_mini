@@ -30,6 +30,7 @@ export function useSheets() {
             });
         } else {
             setSheets([]);
+            setLoading(false);
         }
     }, [sheetIds]);
 

@@ -47,7 +47,7 @@ export default function Dashboard() {
     <div className="m-2">
       <Button className="mb-2 w-100" onClick={() => setShowAddModal(true)}>Add new sheet</Button>
       <div className="overflow-auto">
-        {sheets ? sheets.map((sheet, index) => {
+        {sheets.length > 0 ? sheets.map((sheet, index) => {
           return (
             <Card onClick={toggleSheeet(sheet.spreadsheetId)} className="mb-2" key={sheet.spreadsheetId}>
               <Card.Body>
@@ -74,7 +74,7 @@ export default function Dashboard() {
             </Card>
           );
         })
-        : null}
+        : <div>Add sheets to begin</div>}
       </div>
       <ModalComponent show={showAddModal} onClose={() => setShowAddModal(false)} title="Enter public google sheets link" body={renderGoogleSheetsInput()} onAction={parseGoogleSheet}/>
     </div>

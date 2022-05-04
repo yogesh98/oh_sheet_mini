@@ -33,7 +33,6 @@ const CueController = () => {
 
     useEffect(() => {
         getCueData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then(data => {
-            console.log(data);
             if(data){
                 setCueData(data);
             } else if(sheet) {

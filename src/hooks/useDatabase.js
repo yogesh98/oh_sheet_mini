@@ -17,7 +17,6 @@ export function useDatabase() {
       const userDataRef = ref(db, `users/${userId}/${path}`);
       onValue(userDataRef, (snapshot) => {
         const data = snapshot.val();
-        // console.log(data);
         updateFunction(data);
       });
     },[currentUser]);
@@ -41,7 +40,6 @@ export function useDatabase() {
       const db = getDatabase();
       const cueDataRef = ref(db, `cues/${path}`);
       return get(cueDataRef).then(snapshot => {
-        console.log(snapshot.val());
         return snapshot.val();
       });
     },[]);
