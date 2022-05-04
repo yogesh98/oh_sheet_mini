@@ -1,8 +1,8 @@
-import React, { Suspense } from "react";
-import ReactDOM from 'react-dom';
+import React, {Suspense} from 'react';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './views/App/App';
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import { AuthProvider } from "contexts/AuthContext"
 import {
   BrowserRouter as Router,
@@ -19,10 +19,11 @@ const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
 const Operator = React.lazy(() => import('views/Operator/Operator'));
 const NotFound = React.lazy(() => import('views/App/NotFound'));
-require('dotenv').config()
-
-
-ReactDOM.render(
+console.log("hello");
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
   <React.StrictMode>
   	<Suspense fallback={<LoaderComponent />}>
 		<Router>
@@ -44,13 +45,10 @@ ReactDOM.render(
 			</AuthProvider>
 		</Router>
     </Suspense>
-  </React.StrictMode>,
-  document.getElementById('root'),
-  () => document.title = "📜 Oh Sheet!"
+  </React.StrictMode>
 );
 
-function RequireAuth({ children, redirectTo }) {
+function RequireAuth({ children, redirectTo }: { children: JSX.Element, redirectTo: string }) : JSX.Element {
 	const {currentUser} = useAuth();
 	return currentUser.email ? children : <Navigate  to={redirectTo}/>;
 }
-
