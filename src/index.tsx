@@ -2,7 +2,6 @@ import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './views/App/App';
-// import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import { AuthProvider } from "contexts/AuthContext"
 import {
   BrowserRouter as Router,
@@ -19,7 +18,7 @@ const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
 const Operator = React.lazy(() => import('views/Operator/Operator'));
 const NotFound = React.lazy(() => import('views/App/NotFound'));
-console.log("hello");
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
