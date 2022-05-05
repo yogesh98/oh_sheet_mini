@@ -13,79 +13,81 @@ const CueController = () => {
     const { currentUser } = useAuth();
     const {spreadsheetId, sheetName} = useParams();
     const {sheet, loading} = useSheet(spreadsheetId, sheetName);
-    const {writeCueData, getCueData} = useDatabase();
+    const {writeServerData, getServerData} = useDatabase();
 
-    const [cueData, setCueData] = useState(null);
+    const [serverData, setServerData] = useState(null);
 
     
-    const resetCueData = useCallback(() => {
-        let cueData = {};
-        cueData['headers'] = sheet.values[0];
-        cueData['previous'] = {};
+    const resetServerData = useCallback(() => {
+        let newServerData = {};
+        newServerData['headers'] = sheet.values[0];
+        newServerData['previous'] = {};
         /* eslint-disable no-sequences */
-        cueData['current'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[1][i], r), {});
-        cueData['next'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[2][i], r), {});
-        cueData['currentPtr'] = 1;
-        cueData['command'] = 'reset';
-        setCueData(cueData);
-        // writeCueData(spreadsheetId, sheetName, cueData);
-    }, [sheet]); //, writeCueData, spreadsheetId, sheetName]);
+        newServerData['current'] = newServerData['headers'].reduce((r, e, i) => (r[e]= sheet.values[1][i], r), {});
+        newServerData['next'] = newServerData['headers'].reduce((r, e, i) => (r[e]= sheet.values[2][i], r), {});
+        newServerData['currentPtr'] = 1;
+        newServerData['command'] = 'reset';
+        setServerData(newServerData);
+        // writeServerData(spreadsheetId, sheetName, serverData);
+    }, [sheet]); //, writeServerData, spreadsheetId, sheetName]);
 
     useEffect(() => {
-        getCueData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then(data => {
+        getServerData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then(data => {
             if(data){
-                setCueData(data);
+                setServerData(data);
             } else if(sheet) {
-                resetCueData();
+                resetServerData();
             }
         });
-    }, [spreadsheetId, sheetName, getCueData, sheet, currentUser.uid, resetCueData]);
+    }, [spreadsheetId, sheetName, getServerData, sheet, currentUser.uid, resetServerData]);
 
     useEffect(() => {
-        writeCueData(spreadsheetId, sheetName, cueData);
-    }, [cueData, writeCueData, spreadsheetId, sheetName]);
+        writeServerData(spreadsheetId, sheetName, serverData);
+    }, [serverData, writeServerData, spreadsheetId, sheetName]);
 
     const nextCue = () => {
-        let newCueData = {...cueData};
-        newCueData['previous'] = cueData['current'];
-        newCueData['current'] = cueData['next'];
-        newCueData['currentPtr'] = cueData['currentPtr'] + 1;
-        newCueData['command'] = 'next';
-        newCueData['next'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[newCueData['currentPtr'] + 1][i], r), {});
-        if(typeof newCueData['next'].id === 'undefined') {
-            newCueData['next'] = {};
+        let newServerData = {...serverData};
+        newServerData['previous'] = serverData['current'];
+        newServerData['current'] = serverData['next'];
+        newServerData['currentPtr'] = serverData['currentPtr'] + 1;
+        newServerData['command'] = 'next';
+        newServerData['next'] = serverData['headers'].reduce((r, e, i) => (r[e]= sheet.values[newServerData['currentPtr'] + 1][i], r), {});
+        if(typeof newServerData['next'].id === 'undefined') {
+            newServerData['next'] = {};
         }
-        setCueData(newCueData);
-        // writeCueData(spreadsheetId, sheetName, cueData);
+        setServerData(newServerData);
+        // writeServerData(spreadsheetId, sheetName, serverData);
     }
 
     const prevCue = () => {
-        let newCueData = {...cueData};
-        newCueData['next'] = cueData['current'];
-        newCueData['current'] = cueData['previous'];
-        newCueData['currentPtr'] = cueData['currentPtr'] - 1;
+        let newCueData = {...serverData};
+        newCueData['next'] = serverData['current'];
+        newCueData['current'] = serverData['previous'];
+        newCueData['currentPtr'] = serverData['currentPtr'] - 1;
         newCueData['command'] = 'previous';
-        newCueData['previous'] = cueData['headers'].reduce((r, e, i) => (r[e]= sheet.values[newCueData['currentPtr'] - 1][i], r), {});
+        newCueData['previous'] = serverData['headers'].reduce((r, e, i) => (r[e]= sheet.values[newCueData['currentPtr'] - 1][i], r), {});
         if(typeof newCueData['previous'].id === 'undefined' || newCueData['currentPtr'] - 1 === 0) {
             newCueData['previous'] = {};
         }
-        setCueData(newCueData);
-        // writeCueData(spreadsheetId, sheetName, cueData);
+        setServerData(newCueData);
+        // writeServerData(spreadsheetId, sheetName, serverData);
     }
 
 
-    if(loading || cueData === null) {
+    if(loading || serverData === null) {
         return <LoaderComponent />
     }
     
     return (
         <div>
-            <CueComponent key={cueData.previous?.id} cue={cueData.previous} />
-            <CueComponent key={cueData.current?.id} cue={cueData.current} />
-            <CueComponent key={cueData.next?.id} cue={cueData.next} />
-            <Button onClick={() => resetCueData()}>Reset</Button>
+            <CueComponent key={serverData.previous?.id} cue={serverData.previous} />
+            <CueComponent key={serverData.current?.id} cue={serverData.current} />
+            <CueComponent key={serverData.next?.id} cue={serverData.next} />
+            <Button onClick={() => resetServerData()}>Reset</Button>
             <Button onClick={() => prevCue()}>Prev</Button>
             <Button onClick={() => nextCue()}>Next</Button>
+            <Button onClick={() => nextCue()}>Countdown</Button>
+            <div>{serverData.countdown}</div>
         </div>
     );
 };

@@ -10,12 +10,12 @@ import resetSound from 'assets/reset.mp3';
 
 const OperatorDashboard = () => {
     const [cueData, setCueData] = useState({});
-    const {listenCueData} = useDatabase();
+    const {listenServerData} = useDatabase();
     const {uid, spreadsheetId, sheetName} = useParams();
 
     useEffect(() => {
-        listenCueData(`${uid}/${spreadsheetId}/${sheetName}`, setCueData);
-    }, [listenCueData, setCueData, uid, spreadsheetId, sheetName]);
+        listenServerData(`${uid}/${spreadsheetId}/${sheetName}`, setCueData);
+    }, [listenServerData, setCueData, uid, spreadsheetId, sheetName]);
 
     useEffect(() => {
         if(cueData.command === 'next'){

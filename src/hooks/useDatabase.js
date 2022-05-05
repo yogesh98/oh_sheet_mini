@@ -21,24 +21,25 @@ export function useDatabase() {
       });
     },[currentUser]);
 
-    const writeCueData = async (spreadsheetId, path, data) => {
+    const writeServerData = async (spreadsheetId, path, data) => {
+      console.log(data);
       const db = getDatabase();
       const userId = currentUser.uid;
-      set(ref(db, `cues/${userId}/${spreadsheetId}/${path}`), data);
+      set(ref(db, `server/${userId}/${spreadsheetId}/${path}`), data);
     };
 
-    const listenCueData = useCallback (async (path, updateFunction) => {
+    const listenServerData = useCallback (async (path, updateFunction) => {
       const db = getDatabase();
-      const cueDataRef = ref(db, `cues/${path}`);
+      const cueDataRef = ref(db, `server/${path}`);
       onValue(cueDataRef, (snapshot) => {
         const data = snapshot.val();
         updateFunction(data);
       });
     },[]);
 
-    const getCueData = useCallback (async (path) => {
+    const getServerData = useCallback (async (path) => {
       const db = getDatabase();
-      const cueDataRef = ref(db, `cues/${path}`);
+      const cueDataRef = ref(db, `server/${path}`);
       return get(cueDataRef).then(snapshot => {
         return snapshot.val();
       });
@@ -46,5 +47,5 @@ export function useDatabase() {
 
 
 
-  return {writeUserData, listenUserData, writeCueData, listenCueData, getCueData};
+  return {writeUserData, listenUserData, writeServerData, listenServerData, getServerData};
 }
