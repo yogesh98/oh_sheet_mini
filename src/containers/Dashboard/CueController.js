@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 
 import CueComponent from 'components/Cue/CueComponent';
 import LoaderComponent from "components/Loader/LoaderComponent";
-import VoiceChannelComponent from 'components/VoiceChannel/VoiceChannelComponent';
+// import VoiceChannelComponent from 'components/VoiceChannel/VoiceChannelComponent';
 
 
 const CueController = () => {
@@ -90,7 +90,7 @@ const CueController = () => {
             <Button onClick={() => nextCue()}>Next</Button>
             <Button onClick={() => nextCue()}>Countdown</Button>
             <div>{serverData.countdown}</div>
-            <VoiceChannelComponent />
+            {/* <VoiceChannelComponent /> */}
         </div>
     );
 };
