@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import {useDatabase} from './useDatabase';
 
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
+
 
 export function useVoiceChannel() {
     const socket = io(process.env.REACT_APP_SIGNALING_SERVER);
@@ -14,23 +14,27 @@ export function useVoiceChannel() {
     const [call, setCall] = useState({});
     const [me, setMe] = useState('');
   
-    const myVideo = useRef();
-    const userVideo = useRef();
-    const connectionRef = useRef();
+    const myVideo = useRef(null);
+    const userVideo = useRef(null);
+    const connectionRef = useRef(null);
   
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then((currentStream) => {
-            setStream(currentStream);
+                setStream(currentStream);
 
-            myVideo.current.srcObject = currentStream;
+                myVideo.current.srcObject = currentStream;
             });
 
-        socket.on('me', (id) => setMe(id));
+        socket.on('me', (id) => {
+            setMe(id);
+            console.log(id);
+        });
 
         socket.on('callUser', ({ from, name: callerName, signal }) => {
             setCall({ isReceivingCall: true, from, name: callerName, signal });
         });
+        // eslint-disable-next-line
     }, []);
     
     const answerCall = () => {
