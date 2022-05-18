@@ -9,7 +9,7 @@ import { Button, InputGroup, FormControl } from "react-bootstrap";
 const socket = io.connect(process.env.REACT_APP_SIGNALING_SERVER);
 
 export default function VoiceChannelComponent() {
-	const [ me, setMe ] = useState("")
+	const [ id, setId ] = useState("")
 	const [ stream, setStream ] = useState()
 	const [ receivingCall, setReceivingCall ] = useState(false)
 	const [ caller, setCaller ] = useState("")
@@ -18,18 +18,18 @@ export default function VoiceChannelComponent() {
 	const [ idToCall, setIdToCall ] = useState("")
 	const [ callEnded, setCallEnded] = useState(false)
 	const [ name, setName ] = useState("")
-	const myVideo = useRef()
-	const userVideo = useRef()
+	const localStreamRef = useRef()
+	const remoteStreamRef = useRef()
 	const connectionRef= useRef()
 
 	useEffect(() => {
 		navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
 			setStream(stream)
-				myVideo.current.srcObject = stream
+				localStreamRef.current.srcObject = stream
 		})
 
-		socket.on("me", (id) => {
-			setMe(id)
+		socket.on("id", (id) => {
+			setId(id)
 		})
 
 		socket.on("callUser", (data) => {
@@ -50,13 +50,13 @@ export default function VoiceChannelComponent() {
 			socket.emit("callUser", {
 				userToCall: id,
 				signalData: data,
-				from: me,
+				from: id,
 				name: name
 			})
 		})
 		peer.on("stream", (stream) => {
 			
-				userVideo.current.srcObject = stream
+				remoteStreamRef.current.srcObject = stream
 			
 		})
 		socket.on("callAccepted", (signal) => {
@@ -78,7 +78,7 @@ export default function VoiceChannelComponent() {
 			socket.emit("answerCall", { signal: data, to: caller })
 		})
 		peer.on("stream", (stream) => {
-			userVideo.current.srcObject = stream
+			remoteStreamRef.current.srcObject = stream
 		})
 
 		peer.signal(callerSignal)
@@ -96,16 +96,16 @@ export default function VoiceChannelComponent() {
 		<div className="container">
 			<div className="video-container">
 				<div className="video">
-					{stream &&  <audio playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
+					{stream &&  <audio playsInline muted ref={localStreamRef} autoPlay style={{ width: "300px" }} />}
 				</div>
 				<div className="video">
 					{callAccepted && !callEnded ?
-					<audio playsInline ref={userVideo} autoPlay style={{ width: "300px"}} />:
+					<audio playsInline ref={remoteStreamRef} autoPlay style={{ width: "300px"}} />:
 					null}
 				</div>
 			</div>
 			<div className="myId">
-				<CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
+				<CopyToClipboard text={id} style={{ marginBottom: "2rem" }}>
 					<Button>
 						Copy ID
 					</Button>
