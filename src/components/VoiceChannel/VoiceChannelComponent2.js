@@ -23,7 +23,7 @@ export default function VoiceChannelComponent() {
 	const connectionRef= useRef()
 
 	useEffect(() => {
-		navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
+		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
 			setStream(stream)
 				localStreamRef.current.srcObject = stream
 		})
@@ -40,26 +40,30 @@ export default function VoiceChannelComponent() {
 		})
 	}, [])
 
-	const callUser = (id) => {
+	const callUser = () => {
+		console.log("callUser");
 		const peer = new Peer({
 			initiator: true,
 			trickle: false,
 			stream: stream
 		})
 		peer.on("signal", (data) => {
+			console.log("signal");
+
 			socket.emit("callUser", {
-				userToCall: id,
+				userToCall: idToCall,
 				signalData: data,
 				from: id,
 				name: name
 			})
 		})
 		peer.on("stream", (stream) => {
-			
-				remoteStreamRef.current.srcObject = stream
+			console.log("stream");
+			remoteStreamRef.current.srcObject = stream
 			
 		})
 		socket.on("callAccepted", (signal) => {
+			console.log("callAccepted");
 			setCallAccepted(true)
 			peer.signal(signal)
 		})
@@ -68,6 +72,7 @@ export default function VoiceChannelComponent() {
 	}
 
 	const answerCall =() =>  {
+		console.log("answer call");
 		setCallAccepted(true)
 		const peer = new Peer({
 			initiator: false,
@@ -75,9 +80,11 @@ export default function VoiceChannelComponent() {
 			stream: stream
 		})
 		peer.on("signal", (data) => {
+			console.log("signal")
 			socket.emit("answerCall", { signal: data, to: caller })
 		})
 		peer.on("stream", (stream) => {
+			console.log("stream");
 			remoteStreamRef.current.srcObject = stream
 		})
 
@@ -96,11 +103,11 @@ export default function VoiceChannelComponent() {
 		<div className="container">
 			<div className="video-container">
 				<div className="video">
-					{stream &&  <audio playsInline muted ref={localStreamRef} autoPlay style={{ width: "300px" }} />}
+					{stream &&  <video playsInline muted ref={localStreamRef} autoPlay style={{ width: "300px" }} />}
 				</div>
 				<div className="video">
 					{callAccepted && !callEnded ?
-					<audio playsInline ref={remoteStreamRef} autoPlay style={{ width: "300px"}} />:
+					<video playsInline ref={remoteStreamRef} autoPlay style={{ width: "300px"}} />:
 					null}
 				</div>
 			</div>
@@ -125,7 +132,7 @@ export default function VoiceChannelComponent() {
 							End Call
 						</Button>
 					) : (
-						<Button onClick={() => callUser(idToCall)}>
+						<Button onClick={callUser}>
 							Call
 						</Button>
 					)}
