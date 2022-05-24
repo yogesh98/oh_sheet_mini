@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useEffect, useRef, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import Peer from "simple-peer"

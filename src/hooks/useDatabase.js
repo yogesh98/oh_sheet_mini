@@ -22,7 +22,6 @@ export function useDatabase() {
     },[currentUser]);
 
     const writeServerData = async (spreadsheetId, path, data) => {
-      console.log(data);
       const db = getDatabase();
       const userId = currentUser.uid;
       set(ref(db, `server/${userId}/${spreadsheetId}/${path}`), data);
