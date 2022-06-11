@@ -17,7 +17,6 @@ const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
 const Operator = React.lazy(() => import('views/Operator/Operator'));
-const Test = React.lazy(() => import('views/Test/Test'));
 const NotFound = React.lazy(() => import('views/App/NotFound'));
 
 const root = ReactDOM.createRoot(
@@ -40,7 +39,6 @@ root.render(
               </RequireAuth>
             }/>
             <Route path="viewer/*" element={<Operator />}/>
-            {process.env.REACT_APP_ENV === 'development' ? <Route path="test" element={<Test />}/> : null}
             <Route path="*" element={<NotFound />}/>
           </Route>
 				</Routes>
