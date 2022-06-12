@@ -5,6 +5,8 @@ import { Card, Button, Form } from "react-bootstrap";
 import ModalComponent from "components/Modal/ModalComponent";
 import { Link } from "react-router-dom";
 import LoaderComponent from "components/Loader/LoaderComponent";
+import { BsTrash, BsChevronDown, BsChevronUp, BsPlusLg } from "react-icons/bs";
+
 
 export default function Dashboard() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -45,11 +47,11 @@ export default function Dashboard() {
 
   return (
     <div className="m-2">
-      <div className="d-flex mb-2 justify-content-end">
-        <Button className="mx-2" onClick={() => window.open("https://docs.google.com/spreadsheets/d/1JgIruQzCnb0RwIHjSZIkH_9cO_w8sNDozXp0FKNPHFE/template/preview")}>Create From Template</Button>
-        <Button className="mx-2" onClick={() => setShowAddModal(true)}>Add new sheet</Button>
+      <div className="d-flex mb-4 justify-content-end">
+        <Button className="mx-2" variant="outline-primary" onClick={() => window.open("https://docs.google.com/spreadsheets/d/1JgIruQzCnb0RwIHjSZIkH_9cO_w8sNDozXp0FKNPHFE/template/preview")}>Create From Template</Button>
+        <Button className="mx-2" variant="outline-primary" onClick={() => setShowAddModal(true)}><BsPlusLg /></Button>
       </div>
-      <div className="overflow-auto">
+      <div className="container-md">
         {sheets.length > 0 ? sheets.map((sheet, index) => {
           return (
             <Card onClick={toggleSheeet(sheet.spreadsheetId)} className="mb-2" key={sheet.spreadsheetId}>
@@ -57,8 +59,8 @@ export default function Dashboard() {
                 <div className="d-flex justify-content-between">
                   <Card.Title>{sheet.properties.title}</Card.Title>
                   <div>
-                    <Button onClick={toggleSheeet(sheet.spreadsheetId)} variant="primary">{openSheets[sheet.spreadsheetId] ? 'Close' : 'Open' }</Button>
-                    <Button onClick={removeSheet(index)} variant="Danger">remove</Button>
+                    <Button onClick={removeSheet(index)} variant="Danger"><BsTrash /></Button>
+                    <Button onClick={toggleSheeet(sheet.spreadsheetId)} variant="outline-primary" >{openSheets[sheet.spreadsheetId] ? <BsChevronUp /> : <BsChevronDown /> }</Button>
                   </div>
                 </div>
                 {/* openSheets[sheet.spreadsheetId] && <iframe src={`https://docs.google.com/spreadsheets/d/${sheet.spreadsheetId}/edit#gid=0`} width="100%" height="500px" frameBorder="0"></iframe> */}

@@ -5,6 +5,8 @@ import { useDatabase } from 'hooks/useDatabase';
 import { useAuth } from "contexts/AuthContext";
 
 import { Button } from "react-bootstrap";
+import { BsChevronRight, BsChevronLeft} from "react-icons/bs";
+
 
 import { CueCarouselComponent } from 'components/Cue/CueCarouselComponent';
 import LoaderComponent from "components/Loader/LoaderComponent";
@@ -136,7 +138,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
             <div className="row justify-content-center align-items-center flex-grow-1">
               <div className='col-sm-1'>
                 <div className='row justify-content-center p-2'>
-                  <Button onClick={() => prevCue()}>Prev</Button>
+                  <Button onClick={() => prevCue()}><BsChevronLeft/></Button>
                 </div>
               </div>
               <div className='col-sm-10'>
@@ -144,7 +146,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
               </div>
               <div className='col-sm-1'>
                 <div className='row justify-content-end p-2'>
-                  <Button onClick={() => nextCue()}>Next</Button>
+                  <Button onClick={() => nextCue()}><BsChevronRight/></Button>
                 </div>
               </div>
             </div>
