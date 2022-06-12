@@ -6,10 +6,10 @@ export function useSheets() {
     const [sheets, setSheets] = useState([]);
     const { writeUserData, listenUserData } = useDatabase();
     const [loading, setLoading] = useState(true);
-    const [sheetIds, setSheetIds] = useState(null);
+    const [sheetIds, setSheetIds] = useState([]);
 
     useEffect(() => {
-        listenUserData('sheets', setSheetIds);
+        listenUserData('sheets', (ids) => setSheetIds(ids ? ids : []) );
     }, [listenUserData]);
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export function useSheets() {
                 }
             } catch (exception) {
                 console.error(exception);
-                toast.error("error fetching sheet, please check your url");
+                toast.error("error fetching sheet, please check your url and be sure the sheet is public");
             }
         }
     };

@@ -6,7 +6,9 @@ export default function Layout() {
 
     return (
         <div className="d-flex flex-column h-100">
-            <Navs />
+            <div className="mb-2">
+                <Navs />        
+            </div>
             <Outlet />
         </div>
     )

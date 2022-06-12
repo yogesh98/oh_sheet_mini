@@ -64,7 +64,7 @@ export default function Dashboard() {
                     {sheet.sheets.map((page, index) => {
                       return (
                         <div key={index}>
-                          <Link to={`/owner/cuecontroller/${sheet.spreadsheetId}/${page.properties.title}`}>{page.properties.title}</Link>
+                          <Link to={`/owner/master/${sheet.spreadsheetId}/${page.properties.title}`}>{page.properties.title}</Link>
                         </div>
                       )
                     })}
