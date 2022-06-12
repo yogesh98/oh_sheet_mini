@@ -45,7 +45,10 @@ export default function Dashboard() {
 
   return (
     <div className="m-2">
-      <Button className="mb-2 w-100" onClick={() => setShowAddModal(true)}>Add new sheet</Button>
+      <div className="d-flex mb-2 justify-content-end">
+        <Button className="mx-2" onClick={() => window.open("https://docs.google.com/spreadsheets/d/1JgIruQzCnb0RwIHjSZIkH_9cO_w8sNDozXp0FKNPHFE/template/preview")}>Create From Template</Button>
+        <Button className="mx-2" onClick={() => setShowAddModal(true)}>Add new sheet</Button>
+      </div>
       <div className="overflow-auto">
         {sheets.length > 0 ? sheets.map((sheet, index) => {
           return (
@@ -62,6 +65,9 @@ export default function Dashboard() {
                 {openSheets[sheet.spreadsheetId] ? 
                   <div className="d-flex flex-column"> 
                     {sheet.sheets.map((page, index) => {
+                      if(page.properties.title === "Instructions") {
+                        return null;
+                      }
                       return (
                         <div key={index}>
                           <Link to={`/owner/master/${sheet.spreadsheetId}/${page.properties.title}`}>{page.properties.title}</Link>
