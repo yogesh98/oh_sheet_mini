@@ -1,10 +1,10 @@
-import React from 'react';
-import './loader.css';
+import { Spinner, Flex } from '@chakra-ui/react'
+
 const LoaderComponent = () => {
     return (
-        <div className="d-flex align-items-center justify-content-center h-100">
-            <div className="lds-dual-ring" />
-        </div>
+        <Flex justifyContent="center" alignItems="center" height="100%">
+            <Spinner size="xl" />
+        </Flex>
     );
 };
 

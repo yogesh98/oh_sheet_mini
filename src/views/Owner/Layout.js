@@ -1,14 +1,15 @@
+import { Box, Flex } from "@chakra-ui/react";
 import Navs from "containers/Navbar/Navs";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
 
     return (
-        <div className="d-flex flex-column h-100">
-            <div className="mb-2">
+        <Flex direction="column" height="100%">
+            <Box className="mb-2">
                 <Navs />        
-            </div>
+            </Box>
             <Outlet />
-        </div>
+        </Flex>
     )
 }

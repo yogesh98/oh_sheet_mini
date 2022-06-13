@@ -1,11 +1,11 @@
-import React from "react";
+import { Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
 
     return (
-        <div className="d-flex flex-column h-100">
+        <Flex direction="column" height="100%">
             <Outlet />
-        </div>
+        </Flex>
     )
 }
