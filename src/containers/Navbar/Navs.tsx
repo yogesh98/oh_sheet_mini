@@ -86,23 +86,21 @@ export default function Simple() {
                     </HStack>
                 </HStack>
                 <Flex alignItems={'center'}>
-                    <HStack>
-                        <Menu>
-                            <MenuButton
-                            as={Button}
-                            rounded={'full'}
-                            variant={'link'}
-                            cursor={'pointer'}
-                            minW={0}>
-                                <HamburgerIcon boxSize={6} />
-                            </MenuButton>
-                            <MenuList>
-                                {colorMode === 'dark' ? <MenuItem onClick={toggleColorMode} icon={<SunIcon boxSize={6}/>}>Light Mode</MenuItem> : <MenuItem onClick={toggleColorMode} icon={<MoonIcon boxSize={6}/>}>Dark Mode</MenuItem>}
-                                <MenuDivider />
-                                <MenuItem onClick={handleSelect("logout")} icon={<Icon boxSize={6} as={IoLogOutOutline} />}>Log Out</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </HStack>
+                    <Menu>
+                        <MenuButton
+                        as={Button}
+                        rounded={'full'}
+                        variant={'link'}
+                        cursor={'pointer'}
+                        minW={0}>
+                            <HamburgerIcon boxSize={6} />
+                        </MenuButton>
+                        <MenuList>
+                            {colorMode === 'dark' ? <MenuItem onClick={toggleColorMode} icon={<SunIcon boxSize={6}/>}>Light Mode</MenuItem> : <MenuItem onClick={toggleColorMode} icon={<MoonIcon boxSize={6}/>}>Dark Mode</MenuItem>}
+                            <MenuDivider />
+                            <MenuItem onClick={handleSelect("logout")} icon={<Icon boxSize={6} as={IoLogOutOutline} />}>Log Out</MenuItem>
+                        </MenuList>
+                    </Menu>
                 </Flex>
             </Flex>
 
