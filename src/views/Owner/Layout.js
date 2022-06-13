@@ -1,4 +1,3 @@
-import React from "react";
 import Navs from "containers/Navbar/Navs";
 import { Outlet } from "react-router-dom";
 

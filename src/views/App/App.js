@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Box, useColorModeValue } from '@chakra-ui/react'
 
 export default function App() {
 	const navigate = useNavigate();
@@ -11,8 +12,8 @@ export default function App() {
 	});
 
 	return (
-		<div style={{ height: "100vh" }}>
-			<Outlet />
-		</div>
+			<Box id="app_container" bg={useColorModeValue('', 'gray.800')} h="100vh">
+				<Outlet />
+			</Box>
   	);
 }

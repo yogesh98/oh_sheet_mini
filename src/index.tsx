@@ -13,6 +13,8 @@ import { useAuth } from "contexts/AuthContext";
 import LoaderComponent from "components/Loader/LoaderComponent";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import theme from 'styles/theme'
 const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
@@ -28,20 +30,23 @@ root.render(
   	<Suspense fallback={<LoaderComponent />}>
 		<Router>
 			<AuthProvider>
-        <ToastContainer />
-				<Routes>
-					<Route path="/" element={<App />}>
-            <Route path="login" element={<Login />}/>
-            <Route path="signup"  element={<Signup />}/>
-            <Route path="owner/*" element={
-              <RequireAuth redirectTo="/login">
-                <OwnerView />
-              </RequireAuth>
-            }/>
-            <Route path="viewer/*" element={<Operator />}/>
-            <Route path="*" element={<NotFound />}/>
-          </Route>
-				</Routes>
+        <ChakraProvider theme={theme}>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="login" element={<Login />}/>
+              <Route path="signup"  element={<Signup />}/>
+              <Route path="owner/*" element={
+                <RequireAuth redirectTo="/login">
+                  <OwnerView />
+                </RequireAuth>
+              }/>
+              <Route path="viewer/*" element={<Operator />}/>
+              <Route path="*" element={<NotFound />}/>
+            </Route>
+          </Routes>
+        </ChakraProvider>
 			</AuthProvider>
 		</Router>
     </Suspense>

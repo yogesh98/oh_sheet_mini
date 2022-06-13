@@ -3,14 +3,12 @@ import React from "react";
 import { Container, Navbar, Nav } from "react-bootstrap"
 import { useAuth } from "contexts/AuthContext";
 import {  useNavigate  } from "react-router-dom";
-import { useDatabase } from "hooks/useDatabase";
 
 
 export default function Navs() {
     // const { currentUser, logout } = useAuth();
     const {  logout } = useAuth();
     const navigate = useNavigate();
-    const { writeUserData } = useDatabase();
     // const [userData, setUserData] = useState({});
 
     // useEffect(() => {
@@ -22,7 +20,6 @@ export default function Navs() {
     const handleSelect= (eventKey) => {
         console.log(eventKey);
         if (eventKey === "logout") {
-            writeUserData('loggedIn', false);
             logout();
         } else if(eventKey === "dashboard") {
             navigate("/owner/dashboard");
