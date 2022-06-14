@@ -25,8 +25,8 @@ export default function CardComponent (props: ICardComponentProps) {
             <Flex mb={2} alignItems="center" justifyContent="space-between">
                 {props.title ? <Heading as="h3" size="md" cursor={"pointer"} onClick={props.onClick}>{props.title}</Heading> : null}
                 <HStack >
-                    {props.isOpen ? <BsChevronUp cursor={"pointer"} onClick={props.onClick} /> : <BsChevronDown cursor={"pointer"} onClick={props.onClick} /> }
-                    {props.onDelete ? <Button onClick={props.onDelete} variant="Danger"><Icon as={BsTrash} /></Button> : null}
+                    {props.isOpen ? <Icon boxSize={5} as={BsChevronUp} cursor={"pointer"} onClick={props.onClick} /> : <Icon boxSize={5} as={BsChevronDown} cursor={"pointer"} onClick={props.onClick} /> }
+                    {props.onDelete ? <Button color={"red.300"} onClick={props.onDelete} variant="Danger"><Icon boxSize={5} as={BsTrash} /></Button> : null}
                 </HStack>
             </Flex>
             {props.description ? <Heading as="h4" size="sm">{props.description}</Heading> : null}
