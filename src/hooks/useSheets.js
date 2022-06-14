@@ -64,7 +64,6 @@ export function useSheets() {
                     })();
                 }
             } catch (exception) {
-                console.error(exception);
                 toast({
                     title: "Error fetching sheet.",
                     description: "Please check your url and be sure the sheet is public",
@@ -73,6 +72,7 @@ export function useSheets() {
                     duration: 2000,
                     isClosable: true,
                 })();
+                console.error(exception);
             }
         }
     };
