@@ -19,7 +19,7 @@ import {
   ModalFooter,
   Input, 
 } from "@chakra-ui/react";
-import { BsChevronDown, BsChevronUp, BsPlusLg, BsTrash } from "react-icons/bs";
+import { BsPlusLg } from "react-icons/bs";
 
 import {BooleanMap} from "types/genericTypes";
 import { Link } from "react-router-dom";
@@ -70,6 +70,7 @@ export default function Dashboard (props: IOwnerDashboardProps) {
           const pages: any[] = sheet['sheets'];
           return (
             <CardComponent 
+              isCollapsible
               key={key} 
               title={title}
               onClick={toggleSheeet(key)}

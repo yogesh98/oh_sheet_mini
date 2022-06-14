@@ -15,9 +15,10 @@ import {
   ICueData,
   isCueData,
 } from "types/types";
-import { Button, Flex, useToast } from '@chakra-ui/react';
-import { LinkIcon, RepeatIcon } from '@chakra-ui/icons';
+import { Box, Button, Collapse, Flex, Icon, IconButton, useDisclosure, useToast } from '@chakra-ui/react';
+import { CloseIcon, LinkIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { IoCall } from 'react-icons/io5';
 
 
 export interface IMasterControllerDashboardProps {
@@ -29,6 +30,8 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const {spreadsheetId, sheetName} = useParams();
   const {sheet, loading} = useSheet(spreadsheetId, sheetName);
   const {writeServerData, getServerData} = useDatabase();
+  const { isOpen: isVCTrayOpen, onToggle: onToggleVCTray } = useDisclosure()
+
 
   const [serverData, setServerData] = useState<ICueData>({
     header: "",
@@ -118,8 +121,8 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }
 
   return (
-    <Flex id='master_control_dashboard_box' m={2} h="100%"  direction={'column'}>
-        <Flex justifyContent="end">
+    <Flex id='master_control_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
+        <Flex mb={2} justifyContent="end">
             {/* <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button> */}
             <Button mx={2} onClick={resetServerData}><RepeatIcon /></Button>
             <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
@@ -131,12 +134,19 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
                 })}><LinkIcon /></Button>
             </CopyToClipboard>
         </Flex>
-        <Flex justifyContent="space-between" alignItems="center" flexGrow={1}>
+        <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>
             <Button mx={2} onClick={prevCue}><BsChevronLeft /></Button>
-            <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} />
+            <CueCarouselComponent flex={1} cues={serverData.cues} currentPtr={serverData.currentPtr} />
             <Button mx={2} onClick={nextCue}><BsChevronRight /></Button>
         </Flex>
-        {/* <Flex justifyContent="center" alignItems="center">PUT VC COMPONENT HERE</Flex> */}
+        <Flex maxH="150" justifyContent="space-between" alignItems="center">
+            <Collapse startingHeight={20} in={isVCTrayOpen}>
+                <Flex w="100vw" h="100" justifyContent="center" alignItems="center">
+                    PUT VC COMPONENT HERE
+                </Flex>
+            </Collapse>
+            <IconButton aria-label='toggle VC bar' onClick={onToggleVCTray} icon={ !isVCTrayOpen ? <Icon as={IoCall} /> : <CloseIcon /> } />
+        </Flex>
     </Flex>
   );
 }
