@@ -3,19 +3,27 @@ import { useSheets } from "hooks/useSheets";
 
 import LoaderComponent from "components/Loader/LoaderComponent";
 import CardComponent from "components/Card/CardComponent";
-import { Box, Button, Container, Flex, Icon, useDisclosure } from "@chakra-ui/react";
+import { 
+  Box,
+  Button, 
+  Container, 
+  Flex, 
+  Icon, 
+  useDisclosure, 
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Input, 
+} from "@chakra-ui/react";
 import { BsChevronDown, BsChevronUp, BsPlusLg, BsTrash } from "react-icons/bs";
 
 import {BooleanMap} from "types/genericTypes";
 import { Link } from "react-router-dom";
-import { Modal } from "@chakra-ui/react";
-import { ModalOverlay } from "@chakra-ui/react";
-import { ModalContent } from "@chakra-ui/react";
-import { ModalHeader } from "@chakra-ui/react";
-import { ModalCloseButton } from "@chakra-ui/react";
-import { ModalBody } from "@chakra-ui/react";
-import { ModalFooter } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
+
 
 export interface IOwnerDashboardProps {
 }
@@ -64,29 +72,23 @@ export default function Dashboard (props: IOwnerDashboardProps) {
             <CardComponent 
               key={key} 
               title={title}
-              titleButtons={
-                <Flex alignItems="center">
-                  <Button onClick={toggleSheeet(key)} variant="outline-primary" >{open ? <BsChevronUp /> : <BsChevronDown /> }</Button>
-                  <Button onClick={removeSheet(index)} variant="Danger"><Icon as={BsTrash} /></Button>
-                </Flex>
-              }
               onClick={toggleSheeet(key)}
+              isOpen={open}
+              onDelete={() => removeSheet(key)}
             >
-              {open ? 
-                <Flex direction="column" >
-                  {pages.map((page) => {
-                    const pageTitle: string = page['properties']['title'];
-                    if(pageTitle === "Instructions") {
-                      return null;
-                    }
-                    return (
-                      <Box key={pageTitle}>
-                          <Link to={`/owner/master/${key}/${pageTitle}`}>{pageTitle}</Link>
-                      </Box>
-                    )
-                  })}
-                </Flex>
-              : null}
+              <Flex direction="column" >
+                {pages.map((page) => {
+                  const pageTitle: string = page['properties']['title'];
+                  if(pageTitle === "Instructions") {
+                    return null;
+                  }
+                  return (
+                    <Box key={pageTitle}>
+                        <Link to={`/owner/master/${key}/${pageTitle}`}>{pageTitle}</Link>
+                    </Box>
+                  )
+                })}
+              </Flex>
             </CardComponent>
           );
         })}

@@ -4,7 +4,6 @@ import { useSheet } from 'hooks/useSheets';
 import { useDatabase } from 'hooks/useDatabase';
 import { useAuth } from "contexts/AuthContext";
 
-import { Button } from "react-bootstrap";
 import { BsChevronRight, BsChevronLeft} from "react-icons/bs";
 
 
@@ -16,12 +15,17 @@ import {
   ICueData,
   isCueData,
 } from "types/types";
+import { Button, Flex, useToast } from '@chakra-ui/react';
+import { LinkIcon, RepeatIcon } from '@chakra-ui/icons';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 
 export interface IMasterControllerDashboardProps {
 }
 
 export default function MasterControllerDashboard (props: IMasterControllerDashboardProps) {
   const { currentUser } = useAuth();
+  const toast = useToast();
   const {spreadsheetId, sheetName} = useParams();
   const {sheet, loading} = useSheet(spreadsheetId, sheetName);
   const {writeServerData, getServerData} = useDatabase();
@@ -114,50 +118,25 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }
 
   return (
-    <div className="container-fluid h-100">
-      <div className="row justify-content-center h-100">
-        <div className="col-12">
-          <div className="h-100 d-flex flex-column">
-            <div className="row justify-content-center">
-              <div className='col-sm-1'>
-                {/* PUT COUNTDOWN COMPONENT HERE */}
-              </div>
-              <div className='col-sm-10'>
-                <div className='row justify-content-center'>
-                  {/* {<div className='row justify-content-center fw-bold'>{serverData.header}</div>} */}
-                  <h1 className='row justify-content-center'>{serverData.title}</h1>
-                  {/* {<h2 className='row justify-content-center'>{serverData.subtitle}</h2>} */}
-                </div>
-              </div>
-              <div className='col-sm-1'>
-                <div className='row justify-content-center p-2'>
-                  <Button onClick={() => resetServerData()}>Reset</Button>          
-                </div>
-              </div>
-            </div>
-            <div className="row justify-content-center align-items-center flex-grow-1">
-              <div className='col-sm-1'>
-                <div className='row justify-content-center p-2'>
-                  <Button onClick={() => prevCue()}><BsChevronLeft/></Button>
-                </div>
-              </div>
-              <div className='col-sm-10'>
-                <CueCarouselComponent className='row align-items-center justify-content-center' cues={serverData.cues} currentPtr={serverData.currentPtr} />
-              </div>
-              <div className='col-sm-1'>
-                <div className='row justify-content-end p-2'>
-                  <Button onClick={() => nextCue()}><BsChevronRight/></Button>
-                </div>
-              </div>
-            </div>
-            <div className='row justify-content-center'>
-              <div className='col-sm-12'>
-                {/* PUT VC COMPONENT HERE */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Flex id='master_control_dashboard_box' m={2} h="100%"  direction={'column'}>
+        <Flex justifyContent="end">
+            {/* <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button> */}
+            <Button mx={2} onClick={resetServerData}><RepeatIcon /></Button>
+            <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
+                <Button mx={2} onClick={() => toast({
+                    title: `Copied to clipboard`,
+                    position: "top-right",
+                    duration: 2000,
+                    isClosable: true,
+                })}><LinkIcon /></Button>
+            </CopyToClipboard>
+        </Flex>
+        <Flex justifyContent="space-between" alignItems="center" flexGrow={1}>
+            <Button mx={2} onClick={prevCue}><BsChevronLeft /></Button>
+            <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} />
+            <Button mx={2} onClick={nextCue}><BsChevronRight /></Button>
+        </Flex>
+        {/* <Flex justifyContent="center" alignItems="center">PUT VC COMPONENT HERE</Flex> */}
+    </Flex>
   );
 }
