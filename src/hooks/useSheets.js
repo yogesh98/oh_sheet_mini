@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import {toast} from 'react-toastify';
+import { useToast } from '@chakra-ui/react';
+
 import {useDatabase} from './useDatabase';
 
 export function useSheets() {
@@ -7,6 +8,8 @@ export function useSheets() {
     const { writeUserData, listenUserData } = useDatabase();
     const [loading, setLoading] = useState(true);
     const [sheetIds, setSheetIds] = useState([]);
+    const toast = useToast();
+
 
     useEffect(() => {
         listenUserData('sheets', (ids) => setSheetIds(ids ? ids : []) );
@@ -52,11 +55,24 @@ export function useSheets() {
                         writeUserData('sheets', sheetIds ? [...sheetIds, spreadsheetId] : [spreadsheetId]);
                     });
                 } else {
-                    toast.error('Sheet already exists');
+                    toast({
+                        title: `Sheet already exists`,
+                        position: "top-right",
+                        status: 'error',
+                        duration: 2000,
+                        isClosable: true,
+                    })();
                 }
             } catch (exception) {
                 console.error(exception);
-                toast.error("error fetching sheet, please check your url and be sure the sheet is public");
+                toast({
+                    title: "Error fetching sheet.",
+                    description: "Please check your url and be sure the sheet is public",
+                    position: "top-right",
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                })();
             }
         }
     };
