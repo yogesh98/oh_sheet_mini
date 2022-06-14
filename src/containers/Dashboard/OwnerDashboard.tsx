@@ -75,7 +75,7 @@ export default function Dashboard (props: IOwnerDashboardProps) {
               title={title}
               onClick={toggleSheeet(key)}
               isOpen={open}
-              onDelete={() => removeSheet(key)}
+              onDelete={() => removeSheet(index)}
             >
               <Flex direction="column" >
                 {pages.map((page) => {
