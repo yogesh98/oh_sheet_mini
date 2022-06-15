@@ -17,3 +17,10 @@ export interface ICueData {
 export function isCueData(obj: any): obj is ICueData {
     return typeof obj === 'object' && obj !== null;
 }
+
+export interface ICueLayoutItem {
+    cueKey: string;
+    order: number;
+    colSpan: number;
+    rowSpan: number;
+}
