@@ -11,8 +11,6 @@ import {
 } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
 import LoaderComponent from "components/Loader/LoaderComponent";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import {ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from 'styles/theme'
 const Login = React.lazy(() => import('containers/Login/Login'));
@@ -32,7 +30,6 @@ root.render(
 			<AuthProvider>
         <ChakraProvider theme={theme}>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <ToastContainer />
           <Routes>
             <Route path="/" element={<App />}>
               <Route path="login" element={<Login />}/>

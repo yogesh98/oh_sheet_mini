@@ -1,5 +1,5 @@
 // import {useState} from 'react';
-import { Box, Flex, Grid, GridItem, Heading, Spacer } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
 import CueComponent from "components/Cue/CueComponent";
 import {
     ICue,

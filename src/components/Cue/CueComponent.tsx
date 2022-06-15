@@ -1,4 +1,3 @@
-import CardComponent from 'components/Card/CardComponent';
 import {
     ICue,
 } from "types/types";

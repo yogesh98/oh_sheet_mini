@@ -15,7 +15,7 @@ import {
   ICueData,
   isCueData,
 } from "types/types";
-import { Box, Button, Collapse, Flex, Icon, IconButton, useDisclosure, useToast } from '@chakra-ui/react';
+import { Button, Collapse, Flex, Icon, IconButton, useDisclosure, useToast } from '@chakra-ui/react';
 import { CloseIcon, LinkIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { IoCall } from 'react-icons/io5';
