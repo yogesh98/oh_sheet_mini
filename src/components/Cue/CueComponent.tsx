@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
     ICue,
 } from "types/types";
