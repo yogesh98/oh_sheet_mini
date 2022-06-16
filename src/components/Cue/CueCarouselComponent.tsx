@@ -15,14 +15,15 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
     const currentCue = props.cues[props.currentPtr];
     const prevCue = props.currentPtr > 0 ?  props.cues[props.currentPtr - 1] : null;
     const nextCue = props.currentPtr < props.cues.length ? props.cues[props.currentPtr + 1] : null;
-    const renderPrevious = useBreakpointValue({ lg: true, md: false, sm: false, xs: false, xxs: false });
+    const renderPrevious = useBreakpointValue({ lg: true, md: false, sm: false, xs: false, xxs: false, base: false });
+    const templateColumns = useBreakpointValue({ lg: 6, md: 4, sm: 4, xs: 4, xxs: 4, base: 4 });
     return (
         <Box id={"cue_carousel"} flex={props.flex} h={"100%"} className={props.className}>
             <Grid
             h='100%'
-            templateColumns={useBreakpointValue({ lg: 'repeat(6, 1fr)', md: 'repeat(4, 1fr)', sm: 'repeat(4, 1fr)', xs: 'repeat(4, 1fr)', xxs: 'repeat(4, 1fr)' })}
+            templateColumns={`repeat(${templateColumns}, 1fr)`}
             templateRows='repeat(15, 1fr)'
-            gap={4}
+            gap={useBreakpointValue({ lg: 3, md: 2, sm: 1, xs: 0, xxs: 0 })}
             >
                 {renderPrevious ? <GridItem  
                     colSpan={2} 
