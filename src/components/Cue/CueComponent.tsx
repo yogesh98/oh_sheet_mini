@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
     ICue,
 } from "types/types";
@@ -12,6 +11,7 @@ export interface ICueComponentProps {
     cue: ICue;
     layouts: any;
     onLayoutChange: (layouts: any) => void;
+    resetLayout: (layouts: any) => void;
 }
 
 function CueDraggablePiece(props: {title: string, description: string}) {
@@ -23,7 +23,7 @@ function CueDraggablePiece(props: {title: string, description: string}) {
             alignItems="center"
             borderWidth={useColorModeValue('2px', '')}
             borderRadius="lg"
-            boxShadow={{ base: 'none', sm: useColorModeValue('lg', 'dark-lg') }}
+            boxShadow={useColorModeValue('lg', 'dark-lg')}
             direction={'column'}
         >
             <Text fontSize={{ base: '14px', md: '20px', lg: '112x' }}>{props.description}</Text>
@@ -33,10 +33,8 @@ function CueDraggablePiece(props: {title: string, description: string}) {
 }
 
 export default function CueComponent (props: ICueComponentProps) {
-    const [currentLayouts , setCurrentLayouts] = useState(props.layouts);
-
     const resetLayout = () => {
-        props.onLayoutChange({});
+        props.resetLayout({});
     }
 
     const onLayoutChange = (layouts: any) => {
@@ -44,7 +42,7 @@ export default function CueComponent (props: ICueComponentProps) {
     }
 
     return (
-        <Box id="responsive-grid-bounding-box" h="100%" w="100%">
+        <Box id="responsive-grid-bounding-box" h="100%" w="100%" >
             <Button onClick={resetLayout}>Reset Layout</Button>
             <ResponsiveReactGridLayout
                 cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }}
@@ -53,8 +51,6 @@ export default function CueComponent (props: ICueComponentProps) {
                 onLayoutChange={(layout, layouts) =>
                     onLayoutChange(layouts)
                 }
-                onResizeStart={setCurrentLayouts}
-                onDragStart={setCurrentLayouts}
             >
                 {Object.keys(props.cue).map((cueTitle, index) => {
                     return (

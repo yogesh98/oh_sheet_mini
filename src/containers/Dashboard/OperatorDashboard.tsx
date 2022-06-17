@@ -29,7 +29,7 @@ export default function OperatorDashboard (props: IOperatorDashboardProps) {
   return (
     <Flex id='viewer_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
         <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>
-            <CueCarouselComponent flex={1} cues={serverData.cues} currentPtr={serverData.currentPtr} />
+            <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} />
         </Flex>
     </Flex>
   );
