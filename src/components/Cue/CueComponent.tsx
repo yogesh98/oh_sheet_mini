@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
     ICue,
 } from "types/types";
-import { Box, Button, Flex, Heading, Text,  useColorModeValue, useBreakpointValue,} from '@chakra-ui/react';
+import { Box, Button, Flex, Text,  useColorModeValue,} from '@chakra-ui/react';
 import { WidthProvider, Responsive } from "react-grid-layout";
 import 'react-grid-layout/css/styles.css' 
 import 'react-resizable/css/styles.css' 
@@ -41,18 +41,6 @@ export default function CueComponent (props: ICueComponentProps) {
 
     const onLayoutChange = (layouts: any) => {
         props.onLayoutChange(layouts);
-        resetToLastLayoutThatRespectedHeight();
-    }
-
-    const resetToLastLayoutThatRespectedHeight = () => {
-        const grid = document.querySelector(".react-grid-layout") as HTMLElement | null;
-        const boundingBox = document.getElementById('responsive-grid-bounding-box') as HTMLElement | null;
-        const newHeight = grid?.offsetHeight;
-        const boundingBoxHeight = boundingBox?.offsetHeight;
-        console.log(newHeight, grid, boundingBoxHeight);
-        // if (newHeight > this.maxAllowedGridHeight) {
-        //     onLayoutChange(lastLayout);
-        // }
     }
 
     return (

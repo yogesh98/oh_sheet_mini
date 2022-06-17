@@ -1,6 +1,6 @@
-import {useState} from 'react';
-import { Box, Grid, GridItem, Heading, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, Heading, useBreakpointValue } from "@chakra-ui/react";
 import CueComponent from "components/Cue/CueComponent";
+import { useState } from "react";
 import {
     ICue,
 } from "types/types";
@@ -14,88 +14,100 @@ export interface ICueCarouselComponentProps {
 
 export function CueCarouselComponent (props: ICueCarouselComponentProps) {
     const [layouts, setLayouts] = useState<any>({});
+
     const currentCue = props.cues[props.currentPtr];
     const prevCue = props.currentPtr > 0 ?  props.cues[props.currentPtr - 1] : null;
     const nextCue = props.currentPtr < props.cues.length ? props.cues[props.currentPtr + 1] : null;
-    const renderPrevious = useBreakpointValue({ lg: true, md: false, sm: false, xs: false, xxs: false });
+    const numCols = useBreakpointValue({ lg: 3, md: 2, base: 2 });
+
     return (
-        <Box id={"cue_carousel"} flex={props.flex} h={"100%"} className={props.className}>
-            <Grid
-            h='100%'
-            templateColumns={renderPrevious ? 'repeat(6, 1fr)' : 'repeat(4, 1fr)'}
-            templateRows='repeat(15, 1fr)'
-            gap={4}
-            >
-                {renderPrevious ? <GridItem  
-                    colSpan={2} 
+        <Box id={"cue_carousel"} w="100%" h={"100%"} className={props.className}>
+            <Flex w="100%" h="100%" justifyContent="space-between" alignItems="stretch">
+                {numCols === 3 ? 
+                <Flex
+                    m={1}
+                    flexGrow={1}
                     borderWidth='2px'
                     borderRadius='lg'
                     borderColor="red.500" 
-                    display={"flex"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
+                    direction={'column'}
                 >
-                    <Heading size={"md"}>Previous</Heading>
-                </GridItem> : null}
-                <GridItem  
-                    colSpan={2} 
+                    <Flex 
+                        w={"100"} 
+                        h={"5%"} 
+                        justifyContent="center" 
+                        alignItems="center"
+                        borderBottomWidth='2px'
+                        borderBottomColor="red.500"
+                    >
+                        Previous
+                    </Flex>
+                    <Flex 
+                        w={"100"} 
+                        h={"95%"}
+                        justifyContent="center" 
+                        alignItems="center"
+                    >
+                        {prevCue ?  <CueComponent cue={prevCue} layouts={layouts} onLayoutChange={setLayouts}/> : <Heading size={"md"}>N/A</Heading>}                
+                    </Flex>
+                </Flex>
+                : null}
+                <Flex 
+                    m={1}
+                    flexGrow={1}
                     borderWidth='2px'
                     borderRadius='lg'
                     borderColor="green.500" 
-                    display={"flex"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
+                    direction={'column'}
                 >
-                    <Heading size={"md"}>Current</Heading>
-                </GridItem>
-                <GridItem  
-                    colSpan={2} 
+                    <Flex 
+                        w={"100"} 
+                        h={"5%"} 
+                        justifyContent="center" 
+                        alignItems="center"
+                        borderBottomWidth='2px'
+                        borderBottomColor="green.500"
+                    >
+                        Current
+                    </Flex>
+                    <Flex 
+                        w={"100"} 
+                        h={"95%"}
+                        justifyContent="center" 
+                        alignItems="center"
+                    >
+                        {currentCue ?  <CueComponent cue={currentCue} layouts={layouts} onLayoutChange={setLayouts}/> : <Heading size={"md"}>N/A</Heading>}
+                    </Flex>
+                </Flex>
+                <Flex 
+                    m={1}
+                    flexGrow={1}
                     borderWidth='2px'
                     borderRadius='lg'
                     borderColor="blue.500" 
-                    display={"flex"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
+                    direction={'column'}
                 >
-                    <Heading size={"md"}>Next</Heading>
-                </GridItem>
-                {renderPrevious ? <GridItem  
-                    colSpan={2} 
-                    rowSpan={14}
-                    borderWidth='2px'
-                    borderRadius='lg'
-                    borderColor="red.500" 
-                    display={"flex"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                >
-                    {prevCue ?  <CueComponent cue={prevCue} layouts={layouts} onLayoutChange={setLayouts} /> : <Heading size={"md"}>N/A</Heading>}
-                </GridItem> : null}
-                <GridItem  
-                    colSpan={2} 
-                    rowSpan={14}
-                    borderWidth='2px'
-                    borderRadius='lg'
-                    borderColor="green.500" 
-                    display={"flex"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                >
-                    {currentCue ?  <CueComponent cue={currentCue} layouts={layouts} onLayoutChange={setLayouts} /> : <Heading size={"md"}>N/A</Heading>}
-                </GridItem>
-                <GridItem  
-                    colSpan={2} 
-                    rowSpan={14}
-                    borderWidth='2px'
-                    borderRadius='lg'
-                    borderColor="blue.500" 
-                    display={"flex"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                >
-                    {nextCue ?  <CueComponent cue={nextCue} layouts={layouts} onLayoutChange={setLayouts} /> : <Heading size={"md"}>N/A</Heading>}
-                </GridItem>
-            </Grid>
+                    <Flex 
+                        w={"100"} 
+                        h={"5%"} 
+                        justifyContent="center" 
+                        alignItems="center"
+                        borderBottomWidth='2px'
+                        borderBottomColor="blue.500"
+                    >
+                        Next
+                    </Flex>
+                    <Flex 
+                        w={"100"} 
+                        h={"95%"}
+                        justifyContent="center" 
+                        alignItems="center"
+                    >
+                        {nextCue ?  <CueComponent cue={nextCue} layouts={layouts} onLayoutChange={setLayouts}/> : <Heading size={"md"}>N/A</Heading>}
+                    </Flex>
+                </Flex>
+
+            </Flex>
         </Box>
     );
 }
