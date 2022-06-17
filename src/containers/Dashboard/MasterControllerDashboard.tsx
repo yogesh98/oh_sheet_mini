@@ -134,7 +134,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
         </Flex>
         <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>
             <Button mx={2} onClick={prevCue}><BsChevronLeft /></Button>
-            <CueCarouselComponent flex={1} cues={serverData.cues} currentPtr={serverData.currentPtr} />
+            <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} />
             <Button mx={2} onClick={nextCue}><BsChevronRight /></Button>
         </Flex>
     </Flex>
