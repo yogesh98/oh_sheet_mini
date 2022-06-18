@@ -1,6 +1,5 @@
 import { Box, Flex, Heading, useBreakpointValue } from "@chakra-ui/react";
 import CueComponent from "components/Cue/CueComponent";
-import { useState } from "react";
 import {
     ICue,
 } from "types/types";
@@ -9,19 +8,13 @@ export interface ICueCarouselComponentProps {
     className?: string;
     cues: ICue[];
     currentPtr: number;
-    renderToolbar?: () => JSX.Element;
 }
 
 export function CueCarouselComponent (props: ICueCarouselComponentProps) {
-    const [layouts, setLayouts] = useState<any>({});
-
     const currentCue = props.cues[props.currentPtr];
     const prevCue = props.currentPtr > 0 ?  props.cues[props.currentPtr - 1] : null;
     const nextCue = props.currentPtr < props.cues.length ? props.cues[props.currentPtr + 1] : null;
     const numCols = useBreakpointValue({ lg: 3, md: 2, base: 2 });
-    const resetLayout = () => {
-        setLayouts({});
-    }
 
     return (
         <Box id={"cue_carousel"} w="100%" h={"100%"} className={props.className}>
@@ -51,7 +44,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {prevCue ?  <CueComponent cue={prevCue} layouts={layouts} onLayoutChange={setLayouts} resetLayout={resetLayout}/> : <Heading size={"md"}>N/A</Heading>}                
+                        {prevCue ?  <CueComponent view="prev" cue={prevCue} /> : <Heading size={"md"}>N/A</Heading>}                
                     </Flex>
                 </Flex>
                 : null}
@@ -79,7 +72,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {currentCue ?  <CueComponent cue={currentCue} layouts={layouts} onLayoutChange={setLayouts} resetLayout={resetLayout}/> : <Heading size={"md"}>N/A</Heading>}
+                        {currentCue ?  <CueComponent view="curr" cue={currentCue} /> : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
                 </Flex>
                 <Flex 
@@ -106,7 +99,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {nextCue ?  <CueComponent cue={nextCue} layouts={layouts} onLayoutChange={setLayouts} resetLayout={resetLayout}/> : <Heading size={"md"}>N/A</Heading>}
+                        {nextCue ?  <CueComponent view="next" cue={nextCue} /> : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
                 </Flex>
 

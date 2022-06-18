@@ -16,8 +16,10 @@ import {
   isCueData,
 } from "types/types";
 import { Button, Flex, useToast } from '@chakra-ui/react';
-import { LinkIcon, RepeatIcon } from '@chakra-ui/icons';
+import { LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { useAppDispatch } from 'hooks/hooks';
+import { setLayouts } from 'store/cueLayoutsSlice';
 
 
 export interface IMasterControllerDashboardProps {
@@ -29,7 +31,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const {spreadsheetId, sheetName} = useParams();
   const {sheet, loading} = useSheet(spreadsheetId, sheetName);
   const {writeServerData, getServerData} = useDatabase();
-
+  const dispatch = useAppDispatch();
 
   const [serverData, setServerData] = useState<ICueData>({
     header: "",
@@ -121,8 +123,8 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   return (
     <Flex id='master_control_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
         <Flex mb={2} justifyContent="end">
-            {/* <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button> */}
-            <Button mx={2} onClick={resetServerData}><RepeatIcon /></Button>
+            <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
+            <Button mx={2} onClick={() => dispatch(setLayouts({}))}><RepeatIcon /></Button>
             <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
                 <Button mx={2} onClick={() => toast({
                     title: `Copied to clipboard`,

@@ -1,17 +1,18 @@
 import {
     ICue,
 } from "types/types";
-import { Box, Button, Flex, Text,  useColorModeValue,} from '@chakra-ui/react';
+import { Box, Flex, Text,  useColorModeValue,} from '@chakra-ui/react';
 import { WidthProvider, Responsive } from "react-grid-layout";
+import { useAppSelector, useAppDispatch } from 'hooks/hooks'
+import { setLayouts } from 'store/cueLayoutsSlice';
+
 import 'react-grid-layout/css/styles.css' 
 import 'react-resizable/css/styles.css' 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export interface ICueComponentProps {
+    view: string;
     cue: ICue;
-    layouts: any;
-    onLayoutChange: (layouts: any) => void;
-    resetLayout: (layouts: any) => void;
 }
 
 function CueDraggablePiece(props: {title: string, description: string}) {
@@ -33,23 +34,17 @@ function CueDraggablePiece(props: {title: string, description: string}) {
 }
 
 export default function CueComponent (props: ICueComponentProps) {
-    const resetLayout = () => {
-        props.resetLayout({});
-    }
-
-    const onLayoutChange = (layouts: any) => {
-        props.onLayoutChange(layouts);
-    }
+    const layouts = useAppSelector(state => state.cueLayouts.layouts);
+    const dispatch = useAppDispatch();
 
     return (
         <Box id="responsive-grid-bounding-box" h="100%" w="100%" >
-            <Button onClick={resetLayout}>Reset Layout</Button>
             <ResponsiveReactGridLayout
                 cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }}
                 rowHeight={60}
-                layouts={props.layouts}
+                layouts={layouts}
                 onLayoutChange={(layout, layouts) =>
-                    onLayoutChange(layouts)
+                    dispatch(setLayouts(layouts))
                 }
             >
                 {Object.keys(props.cue).map((cueTitle, index) => {

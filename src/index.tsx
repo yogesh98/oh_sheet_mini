@@ -13,6 +13,9 @@ import { useAuth } from "contexts/AuthContext";
 import LoaderComponent from "components/Loader/LoaderComponent";
 import {ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from 'styles/theme'
+import { Provider } from 'react-redux'
+import store from 'store/store'
+
 const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
@@ -28,22 +31,24 @@ root.render(
   	<Suspense fallback={<LoaderComponent />}>
 		<Router>
 			<AuthProvider>
-        <ChakraProvider theme={theme}>
-          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route path="login" element={<Login />}/>
-              <Route path="signup"  element={<Signup />}/>
-              <Route path="owner/*" element={
-                <RequireAuth redirectTo="/login">
-                  <OwnerView />
-                </RequireAuth>
-              }/>
-              <Route path="viewer/*" element={<Operator />}/>
-              <Route path="*" element={<NotFound />}/>
-            </Route>
-          </Routes>
-        </ChakraProvider>
+        <Provider store={store}>
+          <ChakraProvider theme={theme}>
+            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+            <Routes>
+              <Route path="/" element={<App />}>
+                <Route path="login" element={<Login />}/>
+                <Route path="signup"  element={<Signup />}/>
+                <Route path="owner/*" element={
+                  <RequireAuth redirectTo="/login">
+                    <OwnerView />
+                  </RequireAuth>
+                }/>
+                <Route path="viewer/*" element={<Operator />}/>
+                <Route path="*" element={<NotFound />}/>
+              </Route>
+            </Routes>
+          </ChakraProvider>
+        </Provider>
 			</AuthProvider>
 		</Router>
     </Suspense>
