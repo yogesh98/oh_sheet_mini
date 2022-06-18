@@ -14,14 +14,15 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
     const currentCue = props.cues[props.currentPtr];
     const prevCue = props.currentPtr > 0 ?  props.cues[props.currentPtr - 1] : null;
     const nextCue = props.currentPtr < props.cues.length ? props.cues[props.currentPtr + 1] : null;
+    const numCols = useBreakpointValue({ lg: 3, base: 2 }) || 2;
 
     return (
         <Box id={"cue_carousel"} w="100%" h={"100%"} className={props.className}>
             <Flex w="100%" h="100%" justifyContent="space-between" alignItems="stretch">
-                {useBreakpointValue({ lg: 3, base: 2 }) === 3 ? 
+                {numCols === 3 ? 
                 <Flex
                     m={1}
-                    flexGrow={1}
+                    w={`${100 / numCols}%`}
                     borderWidth='2px'
                     borderRadius='lg'
                     borderColor="red.500" 
@@ -49,7 +50,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                 : null}
                 <Flex 
                     m={1}
-                    flexGrow={1}
+                    w={`${100 / numCols}%`}
                     borderWidth='2px'
                     borderRadius='lg'
                     borderColor="green.500" 
@@ -76,7 +77,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                 </Flex>
                 <Flex 
                     m={1}
-                    flexGrow={1}
+                    w={`${100 / numCols}%`}
                     borderWidth='2px'
                     borderRadius='lg'
                     borderColor="blue.500" 
