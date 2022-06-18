@@ -11,6 +11,7 @@ import {
   // Checkbox,
   Container,
   Divider,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -64,6 +65,12 @@ export default function Login (props: ILoginProps) {
       <Stack spacing={8}>
         <Stack spacing="6">
           <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
+            <Flex alignItems={"center"} justifyContent="center">
+              <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
+                  oh sheet.
+              </Heading>
+              <Text>Open Beta</Text>
+            </Flex>
             <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
               Log in to your account
             </Heading>
@@ -84,6 +91,7 @@ export default function Login (props: ILoginProps) {
                 <Input id="email" type="email" ref={emailRef} />
               </FormControl>
               <PasswordField ref={passwordRef} />
+              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
             </Stack>
             {/* <HStack justify="space-between">
               <Checkbox defaultChecked>Remember me</Checkbox>
@@ -92,7 +100,6 @@ export default function Login (props: ILoginProps) {
               </Button>
             </HStack>*/}
             <Stack spacing="6">
-              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
               <HStack>
                 <Divider />
                 <Text fontSize="sm" whiteSpace="nowrap" color="muted">

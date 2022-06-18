@@ -10,6 +10,7 @@ import {
   // Checkbox,
   Container,
   Divider,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -64,6 +65,12 @@ export default function Signup (props: ISignupProps) {
       <Stack spacing={8}>
         <Stack spacing="6">
           <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
+            <Flex alignItems={"center"} justifyContent="center">
+              <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
+                  oh sheet.
+              </Heading>
+              <Text>Open Beta</Text>
+            </Flex>
             <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
               Sign up for your account
             </Heading>
