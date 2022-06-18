@@ -14,12 +14,11 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
     const currentCue = props.cues[props.currentPtr];
     const prevCue = props.currentPtr > 0 ?  props.cues[props.currentPtr - 1] : null;
     const nextCue = props.currentPtr < props.cues.length ? props.cues[props.currentPtr + 1] : null;
-    const numCols = useBreakpointValue({ lg: 3, md: 2, base: 2 });
 
     return (
         <Box id={"cue_carousel"} w="100%" h={"100%"} className={props.className}>
             <Flex w="100%" h="100%" justifyContent="space-between" alignItems="stretch">
-                {numCols === 3 ? 
+                {useBreakpointValue({ lg: 3, base: 2 }) === 3 ? 
                 <Flex
                     m={1}
                     flexGrow={1}
