@@ -47,7 +47,7 @@ const NavLink = ({ children, handleSelect }: { children: ReactNode, handleSelect
       );
 }
 
-export default function Simple() {
+export default function Navs() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const {  logout } = useAuth();
     const navigate = useNavigate();

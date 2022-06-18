@@ -16,6 +16,7 @@ import theme from 'styles/theme'
 import { Provider } from 'react-redux'
 import store from 'store/store'
 
+const About = React.lazy(() => import('views/About/About'));
 const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
@@ -36,6 +37,7 @@ root.render(
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
             <Routes>
               <Route path="/" element={<App />}>
+                <Route path="about/*" element={<About />} />
                 <Route path="login" element={<Login />}/>
                 <Route path="signup"  element={<Signup />}/>
                 <Route path="owner/*" element={

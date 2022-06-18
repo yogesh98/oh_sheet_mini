@@ -7,7 +7,7 @@ export default function App() {
 	const location = useLocation();
 	useEffect(() => {
 		if (location.pathname === "/") {
-			navigate("/login");
+			navigate("/about/landing");
 		}
 	});
 
