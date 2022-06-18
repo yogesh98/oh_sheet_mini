@@ -40,7 +40,7 @@ export default function CueComponent (props: ICueComponentProps) {
     return (
         <Box id="responsive-grid-bounding-box" h="100%" w="100%" >
             <ResponsiveReactGridLayout
-                cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }}
+                cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                 rowHeight={60}
                 layouts={layouts}
                 onLayoutChange={(layout, layouts) =>

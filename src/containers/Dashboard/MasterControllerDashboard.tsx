@@ -15,9 +15,10 @@ import {
   ICueData,
   isCueData,
 } from "types/types";
-import { Button, Flex, useToast } from '@chakra-ui/react';
-import { LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
+import { DragHandleIcon, InfoIcon, LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { useAppSelector } from 'hooks/hooks';
 import { useAppDispatch } from 'hooks/hooks';
 import { setLayouts } from 'store/cueLayoutsSlice';
 
@@ -31,7 +32,10 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const {spreadsheetId, sheetName} = useParams();
   const {sheet, loading} = useSheet(spreadsheetId, sheetName);
   const {writeServerData, getServerData} = useDatabase();
+  const cueLayoutsSlice = useAppSelector(state => state.cueLayouts);
+  console.log(cueLayoutsSlice);
   const dispatch = useAppDispatch();
+  const { isOpen, onToggle } = useDisclosure();
 
   const [serverData, setServerData] = useState<ICueData>({
     header: "",
@@ -121,24 +125,46 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }
 
   return (
-    <Flex id='master_control_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
-        <Flex mb={2} justifyContent="end">
-            <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
-            <Button mx={2} onClick={() => dispatch(setLayouts({}))}><RepeatIcon /></Button>
-            <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
-                <Button mx={2} onClick={() => toast({
-                    title: `Copied to clipboard`,
-                    position: "top-right",
-                    duration: 2000,
-                    isClosable: true,
-                })}><LinkIcon /></Button>
-            </CopyToClipboard>
+    <>
+      <Flex id='master_control_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
+        <Flex mb={2} justifyContent="space-between">
+            <Box>
+              <Tooltip label="Open Layout Builder">
+                <Button mx={2} onClick={onToggle}><DragHandleIcon /></Button>
+              </Tooltip>
+              <Button mx={2} onClick={() => dispatch(setLayouts({}))}><RepeatIcon /></Button>
+            </Box>
+            <Box>
+              <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
+              <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
+                  <Button mx={2} onClick={() => toast({
+                      title: `Copied to clipboard`,
+                      position: "top-right",
+                      duration: 2000,
+                      isClosable: true,
+                  })}><LinkIcon /></Button>
+              </CopyToClipboard>
+            </Box>
         </Flex>
         <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>
             <Button mx={2} onClick={prevCue}><BsChevronLeft /></Button>
             <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} />
             <Button mx={2} onClick={nextCue}><BsChevronRight /></Button>
         </Flex>
-    </Flex>
+      </Flex>
+      <Modal onClose={onToggle} size={"full"} isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Layout Builder</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            testing
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onToggle}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
