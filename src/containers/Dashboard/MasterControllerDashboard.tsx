@@ -16,7 +16,7 @@ import {
   isCueData,
 } from "types/types";
 import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
-import { DragHandleIcon, InfoIcon, LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
+import { DragHandleIcon, LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { useAppSelector } from 'hooks/hooks';
 import { useAppDispatch } from 'hooks/hooks';
