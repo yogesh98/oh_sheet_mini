@@ -52,9 +52,6 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                 <Flex 
                     m={1}
                     w={`${100 / numCols}%`}
-                    borderWidth='2px'
-                    borderRadius='lg'
-                    borderColor="green.500" 
                     direction={'column'}
                 >
                     <Flex 
@@ -62,8 +59,13 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         h={"5%"} 
                         justifyContent="center" 
                         alignItems="center"
-                        borderBottomWidth='2px'
-                        borderBottomColor="green.500"
+                        borderTopWidth='2px'
+                        borderTopColor="green.500"
+                        borderLeftWidth='2px'
+                        borderLeftColor="green.500"
+                        borderRightWidth='2px'
+                        borderRightColor="green.500"
+                        borderTopRadius="lg"
                     >
                         Current
                     </Flex>
@@ -73,15 +75,20 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {currentCue ?  <CueComponent view="curr" cue={currentCue} /> : <Heading size={"md"}>N/A</Heading>}
+                        {currentCue ?  
+                        <CueComponent
+                            view="curr" 
+                            cue={currentCue} 
+                            borderWidth='2px'
+                            borderRadius='lg'
+                            borderColor="green.500" 
+                         /> 
+                         : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
                 </Flex>
                 <Flex 
                     m={1}
                     w={`${100 / numCols}%`}
-                    borderWidth='2px'
-                    borderRadius='lg'
-                    borderColor="blue.500" 
                     direction={'column'}
                 >
                     <Flex 
@@ -89,8 +96,13 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         h={"5%"} 
                         justifyContent="center" 
                         alignItems="center"
-                        borderBottomWidth='2px'
-                        borderBottomColor="blue.500"
+                        borderTopWidth='2px'
+                        borderTopColor="blue.500"
+                        borderLeftWidth='2px'
+                        borderLeftColor="blue.500"
+                        borderRightWidth='2px'
+                        borderRightColor="blue.500"
+                        borderTopRadius="lg"
                     >
                         Next
                     </Flex>
@@ -100,7 +112,14 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {nextCue ?  <CueComponent view="next" cue={nextCue} /> : <Heading size={"md"}>N/A</Heading>}
+                        {nextCue ?  
+                        <CueComponent 
+                            view="next" 
+                            cue={nextCue} 
+                            borderWidth='2px'
+                            borderRadius='lg'
+                            borderColor="blue.500" 
+                        /> : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
                 </Flex>
 

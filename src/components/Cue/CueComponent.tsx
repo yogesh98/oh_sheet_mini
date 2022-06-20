@@ -13,6 +13,9 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 export interface ICueComponentProps {
     view: string;
     cue: ICue;
+    borderWidth?: string;
+    borderRadius?: string;
+    borderColor?: string;
 }
 
 function CueDraggablePiece(props: {title: string, description: string}) {
@@ -38,7 +41,7 @@ export default function CueComponent (props: ICueComponentProps) {
     const dispatch = useAppDispatch();
 
     return (
-        <Box id="responsive-grid-bounding-box" h="100%" w="100%" >
+        <Box id="responsive-grid-bounding-box" h="100%" w="100%" borderWidth={props.borderWidth} borderRadius={props.borderRadius} borderTopRadius={0} borderColor={props.borderColor} >
             <ResponsiveReactGridLayout
                 cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                 rowHeight={60}

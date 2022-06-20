@@ -15,10 +15,9 @@ import {
   ICueData,
   isCueData,
 } from "types/types";
-import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
-import { DragHandleIcon, LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, useToast } from '@chakra-ui/react';
+import { LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { useAppSelector } from 'hooks/hooks';
 import { useAppDispatch } from 'hooks/hooks';
 import { setLayouts } from 'store/cueLayoutsSlice';
 
@@ -32,10 +31,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const {spreadsheetId, sheetName} = useParams();
   const {sheet, loading} = useSheet(spreadsheetId, sheetName);
   const {writeServerData, getServerData} = useDatabase();
-  const cueLayoutsSlice = useAppSelector(state => state.cueLayouts);
-  console.log(cueLayoutsSlice);
   const dispatch = useAppDispatch();
-  const { isOpen, onToggle } = useDisclosure();
 
   const [serverData, setServerData] = useState<ICueData>({
     header: "",
@@ -129,9 +125,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
       <Flex id='master_control_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
         <Flex mb={2} justifyContent="space-between">
             <Box>
-              <Tooltip label="Open Layout Builder">
-                <Button mx={2} onClick={onToggle}><DragHandleIcon /></Button>
-              </Tooltip>
               <Button mx={2} onClick={() => dispatch(setLayouts({}))}><RepeatIcon /></Button>
             </Box>
             <Box>
@@ -152,19 +145,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
             <Button mx={2} onClick={nextCue}><BsChevronRight /></Button>
         </Flex>
       </Flex>
-      <Modal onClose={onToggle} size={"full"} isOpen={isOpen}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Layout Builder</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            testing
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onToggle}>Close</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   );
 }
