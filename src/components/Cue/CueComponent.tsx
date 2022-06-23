@@ -2,7 +2,7 @@ import {
     ICue,
 } from "types/types";
 import { Box, Flex, Text,  useColorModeValue,} from '@chakra-ui/react';
-import { WidthProvider, Responsive } from "react-grid-layout";
+import { WidthProvider, Responsive, Layouts } from "react-grid-layout";
 import { useAppSelector, useAppDispatch } from 'hooks/hooks'
 import { setLayouts } from 'store/cueLayoutsSlice';
 
@@ -40,15 +40,22 @@ export default function CueComponent (props: ICueComponentProps) {
     const layouts = useAppSelector(state => state.cueLayouts.layouts);
     const dispatch = useAppDispatch();
 
+    const onLayoutChange = (l: Layouts) => {
+        dispatch(setLayouts(l));
+    }
+
     return (
         <Box id="responsive-grid-bounding-box" h="100%" w="100%" borderWidth={props.borderWidth} borderRadius={props.borderRadius} borderTopRadius={0} borderColor={props.borderColor} >
             <ResponsiveReactGridLayout
                 cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                 rowHeight={60}
                 layouts={layouts}
-                onLayoutChange={(layout, layouts) =>
-                    dispatch(setLayouts(layouts))
-                }
+                onLayoutChange={(layout, layouts) => onLayoutChange(layouts)}
+                style={{
+                    height: '100%',
+                    width: '100%',
+                    overflow: 'auto',
+                }}
             >
                 {Object.keys(props.cue).map((cueTitle, index) => {
                     return (
