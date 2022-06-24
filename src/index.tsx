@@ -19,6 +19,7 @@ import store from 'store/store'
 const About = React.lazy(() => import('views/About/About'));
 const Login = React.lazy(() => import('containers/Login/Login'));
 const Signup = React.lazy(() => import('containers/Login/Signup'));
+const ForgotPassword = React.lazy(() => import('containers/Login/ForgotPassword'));
 const OwnerView = React.lazy(() => import('views/Owner/Owner'));
 const Operator = React.lazy(() => import('views/Operator/Operator'));
 const NotFound = React.lazy(() => import('views/App/NotFound'));
@@ -40,6 +41,7 @@ root.render(
                 <Route path="about/*" element={<About />} />
                 <Route path="login" element={<Login />}/>
                 <Route path="signup"  element={<Signup />}/>
+                <Route path="forgot-password"  element={<ForgotPassword />}/>
                 <Route path="owner/*" element={
                   <RequireAuth redirectTo="/login">
                     <OwnerView />

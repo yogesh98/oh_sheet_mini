@@ -2,8 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { useAuth } from "contexts/AuthContext";
 import { Link, useNavigate  } from "react-router-dom";
 
-import { PasswordField } from 'components/Login/PasswordFieldComponent';
-
 import {
   Box,
   Button,
@@ -27,9 +25,8 @@ export interface ILoginProps {
 
 export default function Login (props: ILoginProps) {
   const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
 
-  const { login, currentUser, setCurrentUser} = useAuth();
+  const { currentUser, resetPassword } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate ();
@@ -45,15 +42,11 @@ export default function Login (props: ILoginProps) {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef?.current?.value, passwordRef?.current?.value).then((userCredentials: any) => {
-        if(userCredentials.user.emailVerified || userCredentials.user.email === "yogesh@fakemail.com"){
-          setCurrentUser(userCredentials.user);
-        } else {
-          setError("Please verify your email first");
-        }
+      await resetPassword(emailRef?.current?.value).then(() => {
+        navigate("/login");
       });
     } catch {
-      setError("Failed to log in. Please check your email and password");
+      setError("Failed to send email. Please make sure you have a valid email address");
     }
     setLoading(false);
   }
@@ -70,7 +63,7 @@ export default function Login (props: ILoginProps) {
               <Text as='sup'>Open Beta</Text>
             </Flex>
             <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
-              Log in to your account
+              Forgot Password
             </Heading>
           </Stack>
         </Stack>
@@ -88,14 +81,9 @@ export default function Login (props: ILoginProps) {
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input id="email" type="email" ref={emailRef} />
               </FormControl>
-              <PasswordField ref={passwordRef} />
-              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
+              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Reset Password</Button>
             </Stack>
-            {error ? <HStack justify="end">
-              <Button onClick={() => navigate('/forgot-password')} variant="link" colorScheme="blue" size="sm">
-                Forgot password?
-              </Button>
-            </HStack> : null}
+
             <Stack spacing="6">
               <HStack>
                 <Divider />
@@ -105,9 +93,9 @@ export default function Login (props: ILoginProps) {
                 <Divider />
               </HStack>
               <HStack spacing="1" justify="center">
-                <Text>Don't have an account?</Text>
+                <Text>Remember your password?</Text>
                 <Button variant="link" colorScheme="blue">
-                  <Link to="/signup">Sign up</Link>
+                  <Link to="/login">Log in</Link>
                 </Button>
               </HStack>
             </Stack>

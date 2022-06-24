@@ -105,7 +105,7 @@ export default function Signup (props: ISignupProps) {
               <HStack spacing="1" justify="center">
                 <Text>Already have an account?</Text>
                 <Button variant="link" colorScheme="blue">
-                    <Link to="/Login">Log In</Link>
+                    <Link to="/Login">Log in</Link>
                 </Button>
               </HStack>
             </Stack>

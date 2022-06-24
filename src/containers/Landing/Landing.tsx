@@ -18,8 +18,8 @@ export default function Landing (props: ILandingProps) {
                     <Text as='sup'>Open Beta</Text>
                 </Flex>
                 <Flex m={4} alignItems={"center"} justifyContent={"Center"}>
-                    <Button mr={4} size="lg" onClick={() => {navigate('/signup')}}> Sign Up </Button>
-                    <Button size="lg" onClick={() => {navigate('/login')}}> Log in </Button>
+                    <Button mr={4} size="lg" onClick={() => {navigate('/signup')}}> sign up </Button>
+                    <Button size="lg" onClick={() => {navigate('/login')}}> log in </Button>
                 </Flex>
             </Flex>
         </Flex>
