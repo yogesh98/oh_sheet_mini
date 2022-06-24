@@ -6,6 +6,7 @@ import {
   Link,
   Icon,
   IconButton,
+  Image,
   Button,
   Menu,
   MenuButton,
@@ -16,6 +17,7 @@ import {
   useColorModeValue,
   Stack,
   useColorMode,
+  Text
 } from '@chakra-ui/react';
 import { HamburgerIcon, ChevronDownIcon, ChevronUpIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { IoLogOutOutline } from "react-icons/io5";
@@ -75,7 +77,10 @@ export default function Navs() {
                 onClick={isOpen ? onClose : onOpen}
                 />
                 <HStack spacing={8} alignItems={'center'}>
-                    <Box>📜</Box>
+                    <HStack spacing={2} alignItems={'center'}>
+                        <Image boxSize={"25px"} src='/ohsheetlogo.png' alt='logo' />
+                        <Text fontSize={'lg'}>oh sheet.</Text>
+                    </HStack>
                     <HStack
                         as={'nav'}
                         spacing={4}

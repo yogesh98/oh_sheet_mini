@@ -54,7 +54,8 @@ export default function CueComponent (props: ICueComponentProps) {
                 style={{
                     height: '100%',
                     width: '100%',
-                    overflow: 'auto',
+                    overflowX: 'hidden',
+                    overflowY: 'auto',
                 }}
             >
                 {Object.keys(props.cue).map((cueTitle, index) => {

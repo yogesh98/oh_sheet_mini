@@ -15,7 +15,7 @@ import {
   ICueData,
   isCueData,
 } from "types/types";
-import { Box, Button, Flex, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, useToast, Tooltip } from '@chakra-ui/react';
 import { LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { useAppDispatch } from 'hooks/hooks';
@@ -125,18 +125,24 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
       <Flex id='master_control_dashboard_box' m={2} h="100%" maxH={"100%"}  direction={'column'}>
         <Flex mb={2} justifyContent="space-between">
             <Box>
-              <Button mx={2} onClick={() => dispatch(setLayouts({}))}><RepeatIcon /></Button>
+              <Tooltip label="Reset Layout">
+                <Button mx={2} onClick={() => dispatch(setLayouts({}))}><RepeatIcon /></Button>
+              </Tooltip>
             </Box>
             <Box>
-              <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
-              <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
-                  <Button mx={2} onClick={() => toast({
-                      title: `Copied to clipboard`,
-                      position: "top-right",
-                      duration: 2000,
-                      isClosable: true,
-                  })}><LinkIcon /></Button>
-              </CopyToClipboard>
+              <Tooltip label="Reset Cues">
+                <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
+              </Tooltip>
+                <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
+                  <Tooltip label="Copy Operator Link">
+                    <Button mx={2} onClick={() => toast({
+                        title: `Copied to clipboard`,
+                        position: "top-right",
+                        duration: 2000,
+                        isClosable: true,
+                    })}><LinkIcon /></Button>
+                  </Tooltip>
+                </CopyToClipboard>
             </Box>
         </Flex>
         <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>

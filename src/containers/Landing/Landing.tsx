@@ -9,6 +9,7 @@ export default function Landing (props: ILandingProps) {
 
     return (
         <Flex direction="column" h="100%" w="100%">
+            {/* <Image m={4} boxSize={useBreakpointValue({ base: "25px", md: '50px' })} src='/ohsheetlogo.png' alt='logo' /> */}
             <Flex flexGrow={1} direction="column" alignItems={"center"} justifyContent={"center"}>
                 <Flex alignItems={"center"} justifyContent="center">
                     <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
