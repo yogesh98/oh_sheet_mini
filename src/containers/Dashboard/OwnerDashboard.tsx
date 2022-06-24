@@ -9,7 +9,7 @@ import {
   Container, 
   Flex, 
   Icon, 
-  useDisclosure, 
+  Input, 
   Modal,
   ModalOverlay,
   ModalContent,
@@ -17,13 +17,12 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Input, 
+  Text,
 } from "@chakra-ui/react";
 import { BsPlusLg } from "react-icons/bs";
 
 import {BooleanMap} from "types/genericTypes";
 import { Link } from "react-router-dom";
-import { Heading } from "@chakra-ui/react";
 
 
 export interface IOwnerDashboardProps {
@@ -94,8 +93,8 @@ export default function Dashboard (props: IOwnerDashboardProps) {
             </CardComponent>
           );
         }):
-          <Flex justifyContent="center" alignItems="center" direction="column" grow={1} borderWidth={"2px"} borderRadius={"lg"}> 
-              <Heading m={2}>Add or create a new sheet to start</Heading>
+          <Flex m={4} justifyContent="center" alignItems="center" direction="column" grow={1} borderWidth={"2px"} borderRadius={"lg"}> 
+              <Text m={2} textAlign="center" fontSize={"3xl"}>Add or create a new sheet to start.</Text>
               <Box m={4}>
                 <Button mx={2} onClick={() => window.open("https://docs.google.com/spreadsheets/d/1JgIruQzCnb0RwIHjSZIkH_9cO_w8sNDozXp0FKNPHFE/template/preview")}>Create From Template</Button>
                 <Button mx={2} onClick={openAddModal}><Icon as={BsPlusLg} /></Button>
