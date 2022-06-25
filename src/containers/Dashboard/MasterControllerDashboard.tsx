@@ -17,7 +17,6 @@ import {
 } from "types/types";
 import { Box, Button, Flex, useToast, Tooltip } from '@chakra-ui/react';
 import { LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { useAppDispatch } from 'hooks/hooks';
 import { setLayouts } from 'store/cueLayoutsSlice';
 
@@ -105,16 +104,18 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }
 
   useEffect(() => {
-    getServerData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then((data : ICueData) => {
-      console.log("getServerData", data);
-      if(isCueData(data)) {
-        setServerData(data);
-      } else {
-        resetServerData();
-      }
-    });
+    if(sheet){
+      getServerData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then((data : ICueData) => {
+        console.log("getServerData", data);
+        if(isCueData(data) && data.cues) {
+          setServerData(data);
+        } else {
+          resetServerData();
+        }
+      });
+    }
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sheet]);
 
   if(loading) {
     return <LoaderComponent />
@@ -133,16 +134,19 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
               <Tooltip label="Reset Cues">
                 <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
               </Tooltip>
-                <CopyToClipboard text={window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`)}>
-                  <Tooltip label="Copy Operator Link">
-                    <Button mx={2} onClick={() => toast({
-                        title: `Copied to clipboard`,
-                        position: "top-right",
-                        duration: 2000,
-                        isClosable: true,
-                    })}><LinkIcon /></Button>
-                  </Tooltip>
-                </CopyToClipboard>
+              <Tooltip label="Copy Operator Dashboard">
+                <Button mx={2} onClick={() => {
+                  navigator.clipboard.writeText(window.location.origin+encodeURI(`/viewer/cues/${currentUser.uid}/${spreadsheetId}/${sheetName}`));
+                  toast({
+                      title: `Copied to clipboard`,
+                      position: "top-right",
+                      duration: 2000,
+                      isClosable: true,
+                  });
+                }}>
+                    <LinkIcon />
+                </Button>
+              </Tooltip>
             </Box>
         </Flex>
         <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>

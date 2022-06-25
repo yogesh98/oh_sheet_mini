@@ -6,7 +6,7 @@
       "src": "ohsheetlogo.png",
       "type": "image/png",
       "sizes": "256x256"
-    },
+    }
   ],
   "start_url": ".",
   "display": "standalone",

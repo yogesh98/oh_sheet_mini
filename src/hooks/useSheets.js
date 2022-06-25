@@ -45,34 +45,33 @@ export function useSheets() {
 
     const addNewSheet = async (sheetUrl) => {
         if(sheetUrl){
-            try {
-                const spreadsheetId = sheetUrl.match(/[-\w]{25,}/)[0];
-                if(!sheetIds.includes(spreadsheetId)){
-                    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
-                    fetch(url).then(response => {
-                        return response.json();
-                    }).then(data => {
+            const spreadsheetId = sheetUrl.match(/[-\w]{25,}/)[0];
+            if(!sheetIds.includes(spreadsheetId)){
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
+                fetch(url).then(response => {
+                    return response.json();
+                }).then(data => {
+                    if(data.error){
+                        toast({
+                            title: "Error fetching sheet.",
+                            description: "Please check your url and be sure the sheet is public",
+                            position: "top-right",
+                            status: 'error',
+                            duration: 2000,
+                            isClosable: true,
+                        })
+                    } else {
                         writeUserData('sheets', sheetIds ? [...sheetIds, spreadsheetId] : [spreadsheetId]);
-                    });
-                } else {
-                    toast({
-                        title: `Sheet already exists`,
-                        position: "top-right",
-                        status: 'error',
-                        duration: 2000,
-                        isClosable: true,
-                    })();
-                }
-            } catch (exception) {
+                    }
+                });
+            } else {
                 toast({
-                    title: "Error fetching sheet.",
-                    description: "Please check your url and be sure the sheet is public",
+                    title: `Sheet already exists`,
                     position: "top-right",
                     status: 'error',
                     duration: 2000,
                     isClosable: true,
-                })();
-                console.error(exception);
+                });
             }
         }
     };
