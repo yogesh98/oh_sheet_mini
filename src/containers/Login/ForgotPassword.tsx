@@ -60,7 +60,7 @@ export default function Login (props: ILoginProps) {
               <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
                   oh sheet.
               </Heading>
-              <Text as='sup'>Open Beta</Text>
+              <Text as='sup'>Closed Alpha</Text>
             </Flex>
             <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
               Forgot Password

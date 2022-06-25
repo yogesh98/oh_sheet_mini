@@ -15,7 +15,7 @@ export default function Landing (props: ILandingProps) {
                     <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
                         oh sheet.
                     </Heading>
-                    <Text as='sup'>Open Beta</Text>
+                    <Text as='sup'>Closed Alpha</Text>
                 </Flex>
                 <Flex m={4} alignItems={"center"} justifyContent={"Center"}>
                     <Button mr={4} size="lg" onClick={() => {navigate('/signup')}}> sign up </Button>
