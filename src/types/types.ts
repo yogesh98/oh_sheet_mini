@@ -12,6 +12,7 @@ export interface ICueData {
     subtitle: string;
     cues: ICue[];
     currentPtr: number;
+    standBy: boolean;
 }
 
 export function isCueData(obj: any): obj is ICueData {

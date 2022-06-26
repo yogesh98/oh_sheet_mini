@@ -16,7 +16,7 @@ import {
   isCueData,
 } from "types/types";
 import { Box, Button, Flex, useToast, Tooltip } from '@chakra-ui/react';
-import { LinkIcon, RepeatClockIcon, RepeatIcon } from '@chakra-ui/icons';
+import { LinkIcon, RepeatClockIcon, RepeatIcon, SmallCloseIcon, WarningIcon } from '@chakra-ui/icons';
 import { useAppDispatch } from 'hooks/hooks';
 import { setLayouts } from 'store/cueLayoutsSlice';
 
@@ -38,6 +38,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
     subtitle: "",
     cues: [],
     currentPtr: 0,
+    standBy: false,
   });
 
   const updateServerData = useCallback((data: ICueData) => {
@@ -53,6 +54,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
       subtitle: "",
       cues: [],
       currentPtr: 0,
+      standBy: false,
     };
 
     if (sheet) {
@@ -74,6 +76,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
         subtitle: values[2][0],
         cues: cues,
         currentPtr: 0,
+        standBy: false,
       }; 
     }
     updateServerData(newServerData);
@@ -82,6 +85,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const nextCue = () => {
     console.log("nextCue");
     let newServerData: ICueData = {...serverData};
+    newServerData.standBy = false;
     let nextCue = newServerData.cues[newServerData.currentPtr + 1];
     if (nextCue) {
       newServerData.currentPtr++;
@@ -94,12 +98,20 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const prevCue = () => {
     console.log("prevCue");
     let newServerData: ICueData = {...serverData};
+    newServerData.standBy = false;
     let prevCue = newServerData.cues[newServerData.currentPtr - 1];
     if (prevCue) {
       newServerData.currentPtr--;
     } else {
       newServerData.currentPtr = 0;
     }
+    updateServerData(newServerData);
+  }
+
+  const standBy = () => {
+    console.log("standBy");
+    let newServerData: ICueData = {...serverData};
+    newServerData.standBy = !newServerData.standBy;
     updateServerData(newServerData);
   }
 
@@ -151,8 +163,13 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
         </Flex>
         <Flex maxH={"100%"} justifyContent="space-between" alignItems="center" flexGrow={1}>
             <Button mx={2} onClick={prevCue}><BsChevronLeft /></Button>
-            <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} />
-            <Button mx={2} onClick={nextCue}><BsChevronRight /></Button>
+            <CueCarouselComponent cues={serverData.cues} currentPtr={serverData.currentPtr} standBy={serverData.standBy} />
+            <Flex direction={"column"}>
+              <Tooltip label="Stand By">
+                <Button mx={2} onClick={standBy}>{serverData.standBy ? <SmallCloseIcon /> : <WarningIcon />}</Button>
+              </Tooltip>
+              <Button m={2} onClick={nextCue}><BsChevronRight /></Button>
+            </Flex>
         </Flex>
       </Flex>
     </>

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, Heading, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 import CueComponent from "components/Cue/CueComponent";
 import {
     ICue,
@@ -8,6 +8,7 @@ export interface ICueCarouselComponentProps {
     className?: string;
     cues: ICue[];
     currentPtr: number;
+    standBy: boolean;
 }
 
 export function CueCarouselComponent (props: ICueCarouselComponentProps) {
@@ -16,6 +17,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
     const nextCue = props.currentPtr < props.cues.length ? props.cues[props.currentPtr + 1] : null;
     // const numCols = useBreakpointValue({ xl: 3, base: 2 }) || 2;
     const numCols = useBreakpointValue({ xl: 2, base: 2 }) || 2;
+    const standByColor = useColorModeValue("blue.100", "blue.800");
 
     return (
         <Box id={"cue_carousel"} w="100%" h={"100%"} className={props.className}>
@@ -103,6 +105,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         borderRightWidth='2px'
                         borderRightColor="blue.500"
                         borderTopRadius="lg"
+                        bg={props.standBy ? standByColor : ""}
                     >
                         Next
                     </Flex>
@@ -119,6 +122,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                             borderWidth='2px'
                             borderRadius='lg'
                             borderColor="blue.500" 
+                            bg={props.standBy ? standByColor : ""}
                         /> : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
                 </Flex>

@@ -16,6 +16,7 @@ export interface ICueComponentProps {
     borderWidth?: string;
     borderRadius?: string;
     borderColor?: string;
+    bg?: string;
 }
 
 function CueDraggablePiece(props: {title: string, description: string}) {
@@ -28,6 +29,7 @@ function CueDraggablePiece(props: {title: string, description: string}) {
             borderWidth={useColorModeValue('2px', '')}
             borderRadius="lg"
             boxShadow={useColorModeValue('lg', 'dark-lg')}
+            bg={useColorModeValue('gray.100', 'gray.900')}
             direction={'column'}
         >
             <Text fontSize={{ base: '14px', md: '20px', lg: '112x' }}>{props.description}</Text>
@@ -45,7 +47,7 @@ export default function CueComponent (props: ICueComponentProps) {
     }
 
     return (
-        <Box id="responsive-grid-bounding-box" h="100%" w="100%" borderWidth={props.borderWidth} borderRadius={props.borderRadius} borderTopRadius={0} borderColor={props.borderColor} >
+        <Box id="responsive-grid-bounding-box" h="100%" w="100%" borderWidth={props.borderWidth} borderRadius={props.borderRadius} borderTopRadius={0} borderColor={props.borderColor} bg={props.bg} >
             <ResponsiveReactGridLayout
                 cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                 rowHeight={60}
