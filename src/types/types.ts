@@ -25,3 +25,8 @@ export interface ICueLayoutItem {
     colSpan: number;
     rowSpan: number;
 }
+
+export interface IVoiceChannel {
+    name: string;
+    mute: boolean;
+}

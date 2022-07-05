@@ -9,15 +9,19 @@ import { BsChevronRight, BsChevronLeft} from "react-icons/bs";
 
 import { CueCarouselComponent } from 'components/Cue/CueCarouselComponent';
 import LoaderComponent from "components/Loader/LoaderComponent";
+import VoiceChannelsComponent from 'components/VoiceChannel/VoiceChannelsComponent';
 
 import {
   ICue,
   ICueData,
   isCueData,
 } from "types/types";
-import { Box, Button, Flex, useToast, Tooltip } from '@chakra-ui/react';
-import { LinkIcon, RepeatClockIcon, RepeatIcon, SmallCloseIcon, WarningIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, useToast, Tooltip, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerBody } from '@chakra-ui/react';
+import { LinkIcon, RepeatClockIcon, RepeatIcon, SmallCloseIcon, WarningIcon, PhoneIcon } from '@chakra-ui/icons';
+
 import { useAppDispatch } from 'hooks/hooks';
+import { useDisclosure } from '@chakra-ui/react'
+
 import { setLayouts } from 'store/cueLayoutsSlice';
 
 
@@ -29,6 +33,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   const toast = useToast();
   const {spreadsheetId, sheetName} = useParams();
   const {sheet, loading} = useSheet(spreadsheetId, sheetName);
+  const {isOpen, onToggle } = useDisclosure();
   const {writeServerData, getServerData} = useDatabase();
   const dispatch = useAppDispatch();
 
@@ -143,6 +148,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
               </Tooltip>
             </Box>
             <Box>
+              <Button mx={2} onClick={onToggle} > <PhoneIcon/> </Button>
               <Tooltip label="Reset Cues">
                 <Button mx={2} onClick={resetServerData}><RepeatClockIcon /></Button>
               </Tooltip>
@@ -172,6 +178,19 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
             </Flex>
         </Flex>
       </Flex>
+      <Drawer
+        isOpen={isOpen}
+        placement='bottom'
+        onClose={onToggle}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerBody>
+            <VoiceChannelsComponent />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
