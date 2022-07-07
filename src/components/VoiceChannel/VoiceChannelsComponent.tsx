@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 
-import { Avatar, Box, Flex, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, FormControl, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useColorModeValue, useDisclosure, useToast, VStack } from '@chakra-ui/react'
 
 import {
     IVoiceChannel,
@@ -10,8 +10,13 @@ import { AddIcon } from '@chakra-ui/icons';
 import { BsFillVolumeMuteFill } from 'react-icons/bs';
 
 export default function VoiceChannelsComponent(){
-    const [vcs, setVcs] = useState<IVoiceChannel[]>([{name: "VC1 super long name", mute: false}]);
+    const [vcs, setVcs] = useState<IVoiceChannel[]>([]);
     const {isOpen, onToggle } = useDisclosure();
+    const [newVcName, setNewVcName] = useState("");
+    const initialRef = useRef(null);
+    const toast = useToast();
+
+
     const buttonHoverColor = useColorModeValue("gray.100", "blue.800");
     
     const muteVc = (index: number) => () => {
@@ -21,16 +26,40 @@ export default function VoiceChannelsComponent(){
         setVcs(newVcs);
     }
 
+    const addVc = () => {
+        console.log("addVc");
+        // only add new VC if name is not empty and not already in list
+        if(newVcName.length > 0 && !vcs.some(vc => vc.name === newVcName)){
+            const newVcs = [...vcs];
+            newVcs.push({name: newVcName, mute: false});
+            setVcs(newVcs);
+            setNewVcName("");
+            onToggle();
+        } else {
+            toast({
+                title: "Could not add VC",
+                description: "Please check the name and try again",
+                position: "top-right",
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            });
+        }
+    }
+
     return (
-        <Flex w="100%" justifyContent="center" alignItems="center" overflow="auto">
+    <>
+        <Flex h={"100%"} w="100%" justifyContent="center" alignItems="center" overflow="auto">
             {vcs.map((vc, index) => {
                 return (
                     <Box w={"6rem"} borderRadius="lg" onClick={muteVc(index)} _hover={{ bg: buttonHoverColor }}>
                         <VStack m={2} spacing={1}>
                             <Avatar name={vc.name} />
-                            <Box>{vc.name}</Box>
+                            <HStack spacing={1}>
+                                <Box>{vc.name}</Box>
+                                <Box>{vc.mute ? <BsFillVolumeMuteFill /> : ""}</Box>
+                            </HStack>
                         </VStack >
-                        {vc.mute ? <BsFillVolumeMuteFill /> : null}
                     </Box>
                 );
             })}
@@ -41,5 +70,34 @@ export default function VoiceChannelsComponent(){
                 </VStack >
             </Box>
         </Flex>
+        <Modal
+        initialFocusRef={initialRef}
+        isOpen={isOpen}
+        onClose={onToggle}
+        >
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Create new channel</ModalHeader>
+                <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <FormControl>
+                            <Input 
+                                ref={initialRef} 
+                                placeholder='label' 
+                                value={newVcName} 
+                                onChange={(e) => setNewVcName(e.target.value)} 
+                            />
+                        </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button type='submit' colorScheme='blue' mr={3} onClick={addVc}>
+                            Save
+                        </Button>
+                        <Button onClick={onToggle}>Cancel</Button>
+                    </ModalFooter>
+            </ModalContent>
+        </Modal>
+    </>
     )
 }
