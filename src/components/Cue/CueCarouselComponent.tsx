@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 import CueComponent from "components/Cue/CueComponent";
+import { useEffect, useState } from "react";
 import {
     ICue,
 } from "types/types";
@@ -18,6 +19,19 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
     // const numCols = useBreakpointValue({ xl: 3, base: 2 }) || 2;
     const numCols = useBreakpointValue({ xl: 2, base: 2 }) || 2;
     const standByColor = useColorModeValue("blue.100", "blue.800");
+    const cueChagneColor = useColorModeValue("green.100", "green.800");
+    const [showCueChange, setShowCueChange] = useState(false);
+
+    useEffect(() => {
+        cueChange();
+    }, [props.currentPtr]);
+
+    const cueChange = async () => {
+        setShowCueChange(true);
+        setTimeout(() => {
+            setShowCueChange(false);
+        }, 2000);
+    }
 
     return (
         <Box id={"cue_carousel"} w="100%" h={"100%"} className={props.className}>
@@ -68,6 +82,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         borderRightWidth='2px'
                         borderRightColor="green.500"
                         borderTopRadius="lg"
+                        bg={ showCueChange ? cueChagneColor : "" }
                     >
                         Current
                     </Flex>
@@ -84,6 +99,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                             borderWidth='2px'
                             borderRadius='lg'
                             borderColor="green.500" 
+                            bg={ showCueChange ? cueChagneColor : "" }
                          /> 
                          : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
