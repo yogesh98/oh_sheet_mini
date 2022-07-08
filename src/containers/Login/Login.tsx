@@ -83,14 +83,16 @@ export default function Login (props: ILoginProps) {
         >
           <Stack spacing="6">
             {error ? <Text color="red.400">{error}</Text> : null}
-            <Stack spacing="5">
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input id="email" type="email" ref={emailRef} />
-              </FormControl>
-              <PasswordField ref={passwordRef} />
-              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
-            </Stack>
+            <form onSubmit={handleSubmit}>
+              <Stack spacing="5">
+                <FormControl>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input id="email" type="email" ref={emailRef} />
+                </FormControl>
+                <PasswordField ref={passwordRef} />
+                <Button type="submit" disabled={loading} variant="solid" onClick={handleSubmit}>Sign in</Button>
+              </Stack>
+            </form>
             {error ? <HStack justify="end">
               <Button onClick={() => navigate('/forgot-password')} variant="link" colorScheme="blue" size="sm">
                 Forgot password?

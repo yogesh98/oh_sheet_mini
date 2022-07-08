@@ -85,16 +85,18 @@ export default function Signup (props: ISignupProps) {
         >
           <Stack spacing="6">
             {error ? <Text color="red">{error}</Text> : null}
-            <Stack spacing="5">
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input id="email" type="email" ref={emailRef} />
-              </FormControl>
-              <PasswordField ref={passwordRef} />
-              <PasswordField {...passwordConfirmProps} ref={passwordConfirmRef}/>
-            </Stack>
+            <form onSubmit={handleSubmit}>
+              <Stack spacing="5">
+                <FormControl>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input id="email" type="email" ref={emailRef} />
+                </FormControl>
+                <PasswordField ref={passwordRef} />
+                <PasswordField {...passwordConfirmProps} ref={passwordConfirmRef}/>
+                <Button type="submit" disabled={loading} variant="solid" onClick={handleSubmit}>Sign up</Button>
+              </Stack>
+            </form>
             <Stack spacing="6">
-              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Sign up</Button>
               <HStack>
                 <Divider />
                 <Text fontSize="sm" whiteSpace="nowrap" color="muted">
