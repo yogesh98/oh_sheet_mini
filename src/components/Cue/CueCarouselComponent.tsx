@@ -26,7 +26,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
         cueChange();
     }, [props.currentPtr]);
 
-    const cueChange = async () => {
+    const cueChange = () => {
         setShowCueChange(true);
         setTimeout(() => {
             setShowCueChange(false);
