@@ -82,7 +82,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
     updateServerData(newServerData);
   }
 
-  const nextCue = () => {
+  const nextCue = useCallback(() => {
     console.log("nextCue");
     let newServerData: ICueData = {...serverData};
     newServerData.standBy = false;
@@ -93,9 +93,9 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
       newServerData.currentPtr = -1;
     }
     updateServerData(newServerData);
-  }
+  }, [serverData, updateServerData]);
 
-  const prevCue = () => {
+  const prevCue = useCallback(() => {
     console.log("prevCue");
     let newServerData: ICueData = {...serverData};
     newServerData.standBy = false;
@@ -106,14 +106,31 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
       newServerData.currentPtr = 0;
     }
     updateServerData(newServerData);
-  }
+  }, [serverData, updateServerData]);
 
-  const standBy = () => {
+  const standBy = useCallback(() => {
     console.log("standBy");
     let newServerData: ICueData = {...serverData};
     newServerData.standBy = !newServerData.standBy;
     updateServerData(newServerData);
-  }
+  }, [serverData, updateServerData]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight" || event.key === "d") {
+        nextCue();
+      } else if (event.key === "ArrowLeft" || event.key === "a") {
+        prevCue();
+      } else if (event.key === "ArrowUp" || event.key === "w") {
+        standBy();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [nextCue, prevCue, standBy]);
 
   useEffect(() => {
     if(sheet){

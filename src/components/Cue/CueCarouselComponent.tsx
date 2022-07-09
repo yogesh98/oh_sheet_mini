@@ -83,7 +83,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         borderRightColor="green.500"
                         borderTopRadius="lg"
                         bg={ showCueChange ? cueChangeColor : "" }
-                        transition="background-color 100ms linear"
+                        transition="background-color 150ms linear"
                     >
                         Current
                     </Flex>
@@ -101,7 +101,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                             borderRadius='lg'
                             borderColor="green.500" 
                             bg={ showCueChange ? cueChangeColor : "" }
-                            transition="background-color 100ms linear"
+                            transition="background-color 150ms linear"
                          /> 
                          : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
@@ -124,7 +124,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         borderRightColor="blue.500"
                         borderTopRadius="lg"
                         bg={props.standBy ? standByColor : ""}
-                        transition="background-color 100ms linear"
+                        transition="background-color 150ms linear"
                     >
                         Next
                     </Flex>
@@ -142,7 +142,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                             borderRadius='lg'
                             borderColor="blue.500" 
                             bg={props.standBy ? standByColor : ""}
-                            transition="background-color 100ms linear"
+                            transition="background-color 150ms linear"
                         /> : <Heading size={"md"}>N/A</Heading>}
                     </Flex>
                 </Flex>
