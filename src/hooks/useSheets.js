@@ -45,8 +45,18 @@ export function useSheets() {
 
     const addNewSheet = async (sheetUrl) => {
         if(sheetUrl){
-            const spreadsheetId = sheetUrl.match(/[-\w]{25,}/)[0];
-            if(!sheetIds.includes(spreadsheetId)){
+            let spreadsheetId = sheetUrl.match(/[-\w]{25,}/);
+            if(spreadsheetId === null){
+                toast({
+                    title: 'Invalid URL',
+                    description: 'Please enter a valid Google Sheets URL',
+                    position: "top-right",
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                });
+            } else if (!sheetIds.includes(spreadsheetId[0])){
+                spreadsheetId = spreadsheetId[0];
                 const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
                 fetch(url).then(response => {
                     return response.json();
@@ -62,6 +72,13 @@ export function useSheets() {
                         })
                     } else {
                         writeUserData('sheets', sheetIds ? [...sheetIds, spreadsheetId] : [spreadsheetId]);
+                        toast({
+                            title: "Sheet Added.",
+                            position: "top-right",
+                            status: 'success',
+                            duration: 2000,
+                            isClosable: true,
+                        })
                     }
                 });
             } else {
