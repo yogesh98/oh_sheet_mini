@@ -42,7 +42,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   });
 
   const updateServerData = useCallback((data: ICueData) => {
-    console.log("updateServerData", data);
     setServerData(data);
     writeServerData(spreadsheetId, sheetName, data);
   }, [spreadsheetId, sheetName, writeServerData]);
@@ -58,6 +57,7 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
     };
 
     if (sheet) {
+      console.log(sheet);
       let values: any[] = sheet['values'];
       let headers = values[3];
       let cues: ICue[] = values.slice(4,-1).map((cue: any[]) => {
@@ -83,7 +83,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }
 
   const nextCue = useCallback(() => {
-    console.log("nextCue");
     let newServerData: ICueData = {...serverData};
     newServerData.standBy = false;
     let nextCue = newServerData.cues[newServerData.currentPtr + 1];
@@ -96,7 +95,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }, [serverData, updateServerData]);
 
   const prevCue = useCallback(() => {
-    console.log("prevCue");
     let newServerData: ICueData = {...serverData};
     newServerData.standBy = false;
     let prevCue = newServerData.cues[newServerData.currentPtr - 1];
@@ -109,7 +107,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   }, [serverData, updateServerData]);
 
   const standBy = useCallback(() => {
-    console.log("standBy");
     let newServerData: ICueData = {...serverData};
     newServerData.standBy = !newServerData.standBy;
     updateServerData(newServerData);
@@ -135,7 +132,6 @@ export default function MasterControllerDashboard (props: IMasterControllerDashb
   useEffect(() => {
     if(sheet){
       getServerData(`${currentUser.uid}/${spreadsheetId}/${sheetName}`).then((data : ICueData) => {
-        console.log("getServerData", data);
         if(isCueData(data) && data.cues) {
           setServerData(data);
         } else {

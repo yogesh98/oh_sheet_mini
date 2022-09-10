@@ -104,14 +104,37 @@ export function useSheet(spreadsheetId, sheetName) {
     useEffect(() => {
         if(spreadsheetId && sheetName){
             setLoading(true);
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
-            fetch(url).then(response => {
+            const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A1:Z1000?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
+            fetch(sheetUrl).then(response => {
                 return response.json();
-            }).then(data => {                
-                setSheet(data);
-                setLoading(false);
+            }).then(data => {
+                const spreadsheetDataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/?key=${process.env.REACT_APP_SHEETS_API_KEY}&alt=json`;
+                fetch(spreadsheetDataUrl).then(response => {
+                    return response.json();
+                }).then((spreadsheetData) => {
+                    const sheetMergeData = spreadsheetData?.sheets?.find(sheet => sheet.properties.title === sheetName)?.merges;
+                    let values = [...data.values];
+                    if(sheetMergeData){
+                        sheetMergeData.forEach((merges) => {
+                            const {startRowIndex, endRowIndex, startColumnIndex, endColumnIndex} = merges;
+                            for (let i = startRowIndex; i < endRowIndex; i++) {
+                                for (let j = startColumnIndex; j < endColumnIndex; j++){
+                                    let numDelete = 1;
+                                    if(typeof values[i][j] === 'undefined'){
+                                        numDelete = 0; 
+                                    }
+                                    values[i].splice(j, numDelete, data.values[startRowIndex][startColumnIndex]);
+                                }
+                            }
+                        });
+                    }
+                    data.values = values;
+                    setSheet(data);
+                    setLoading(false);   
+                });
             });
         }
+        return () => setSheet(null);
     }, [spreadsheetId, sheetName]);
 
     return {sheet, loading};
