@@ -1,0 +1,15 @@
+{
+  "short_name": "oh sheet.",
+  "name": "oh sheet.",
+  "icons": [
+    {
+      "src": "ohsheetlogo.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
