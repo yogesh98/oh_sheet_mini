@@ -22,22 +22,28 @@ let loaded = false;
 })();
 
 let mainWindow;
+let loaderWindow;
 
 const createWindow = () => {
+  loaderWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    transparent: true,
+    resizable: false,
+    frame: false,
+    alwaysOnTop: true,
+  });
+  loaderWindow.loadFile(path.join(__dirname, 'electron/loader.html'));
+
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -48,7 +54,15 @@ app.on('ready', () => {
   setTimeout(() => {
     // Load page served by node
     const reactApp = "http://localhost:4001/";
+    
     mainWindow.loadURL(reactApp);
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
+    mainWindow.maximize();
+    mainWindow.show();
+    mainWindow.focus();
+
+    loaderWindow.destroy();
   }, 2000);
 
 });
