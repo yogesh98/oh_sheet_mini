@@ -56,7 +56,6 @@ export default function Navs() {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const handleSelect = (eventKey: string) => () => {
-        console.log(eventKey);
         if (eventKey === "logout") {
             logout();
         } else if(eventKey === "dashboard") {

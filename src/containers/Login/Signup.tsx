@@ -46,7 +46,6 @@ export default function Signup (props: ISignupProps) {
       setError("");
       setLoading(true);
       await signup(emailRef?.current?.value, passwordRef?.current?.value).then((userCredentials: any) => {
-        console.log(userCredentials);
         setLoading(false);
         navigate("/Login");
       });
