@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 import CueComponent from "components/Cue/CueComponent";
 import { useEffect, useState } from "react";
 import {
@@ -61,7 +61,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {prevCue ?  <CueComponent view="prev" cue={prevCue} /> : <Heading size={"md"}>N/A</Heading>}                
+                        <CueComponent view="prev" cue={prevCue} />              
                     </Flex>
                 </Flex>
                 : null}
@@ -93,7 +93,6 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {currentCue ?  
                         <CueComponent
                             view="curr" 
                             cue={currentCue} 
@@ -102,8 +101,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                             borderColor="green.500" 
                             bg={ showCueChange ? cueChangeColor : "" }
                             transition="background-color 150ms linear"
-                         /> 
-                         : <Heading size={"md"}>N/A</Heading>}
+                         />
                     </Flex>
                 </Flex>
                 <Flex 
@@ -134,7 +132,6 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                         justifyContent="center" 
                         alignItems="center"
                     >
-                        {nextCue ?  
                         <CueComponent 
                             view="next" 
                             cue={nextCue} 
@@ -143,7 +140,7 @@ export function CueCarouselComponent (props: ICueCarouselComponentProps) {
                             borderColor="blue.500" 
                             bg={props.standBy ? standByColor : ""}
                             transition="background-color 150ms linear"
-                        /> : <Heading size={"md"}>N/A</Heading>}
+                        />
                     </Flex>
                 </Flex>
 

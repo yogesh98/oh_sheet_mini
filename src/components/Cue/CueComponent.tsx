@@ -1,7 +1,7 @@
 import {
     ICue,
 } from "types/types";
-import { Box, Flex, Text,  useColorModeValue,} from '@chakra-ui/react';
+import { Box, Flex, Text, Heading, useColorModeValue, } from '@chakra-ui/react';
 import { WidthProvider, Responsive, Layouts } from "react-grid-layout";
 import { useAppSelector, useAppDispatch } from 'hooks/hooks'
 import { setLayouts } from 'store/cueLayoutsSlice';
@@ -12,7 +12,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 export interface ICueComponentProps {
     view: string;
-    cue: ICue;
+    cue: ICue | null;
     borderWidth?: string;
     borderRadius?: string;
     borderColor?: string;
@@ -49,6 +49,7 @@ export default function CueComponent (props: ICueComponentProps) {
 
     return (
         <Box id="responsive-grid-bounding-box" h="100%" w="100%" borderWidth={props.borderWidth} borderRadius={props.borderRadius} borderTopRadius={0} borderColor={props.borderColor} bg={props.bg} transition={props.transition} >
+            {props.cue ? 
             <ResponsiveReactGridLayout
                 cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
                 rowHeight={60}
@@ -64,11 +65,16 @@ export default function CueComponent (props: ICueComponentProps) {
                 {Object.keys(props.cue).map((cueTitle, index) => {
                     return (
                         <Box key={index}>
-                            <CueDraggablePiece title={cueTitle} description={props.cue[cueTitle]} />
+                            <CueDraggablePiece title={cueTitle} description={props.cue ? props.cue[cueTitle] : '-'} />
                         </Box>
                     );
                 })}
-            </ResponsiveReactGridLayout>
+            </ResponsiveReactGridLayout> 
+            : 
+            <Flex w={"100"} h={"95%"} justifyContent="center" alignItems="center">
+                <Heading size={"md"}>N/A</Heading> 
+            </Flex>
+            }
         </Box>
     );
 }
