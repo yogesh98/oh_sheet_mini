@@ -1,5 +1,6 @@
-# OH SHEET 
+# OH SHEET MINI
 
-This project is intented for small live productions to achieve more efficient autonomy.
+Oh sheet is intended for small to medium sized live productions achieve more efficient autonomy.
 
-node v16.14.2
+# Mini
+This is a "mini" web based version of oh sheet. It requires a solid internet connection.
