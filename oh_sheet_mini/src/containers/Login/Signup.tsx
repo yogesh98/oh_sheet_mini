@@ -1,6 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "contexts/AuthContext";
 import { Link, useNavigate  } from "react-router-dom";
+
+import { PasswordField } from 'components/Login/PasswordFieldComponent';
 
 import {
   Box,
@@ -20,35 +22,41 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-export interface ILoginProps {
+export interface ISignupProps {
 }
 
-export default function Login (props: ILoginProps) {
+export default function Signup (props: ISignupProps) {
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
-  const { currentUser, resetPassword } = useAuth();
+  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate ();
 
-  useEffect(() => {
-    if (currentUser.email) {
-      navigate("/owner/dashboard");
-    }
-  }, [currentUser, navigate])
-
 
   async function handleSubmit() {
+
+    if (passwordRef?.current?.value !== passwordConfirmRef?.current?.value) {
+      return setError("Passwords do not match");
+    }
+
     try {
       setError("");
       setLoading(true);
-      await resetPassword(emailRef?.current?.value).then(() => {
-        navigate("/login");
+      await signup(emailRef?.current?.value, passwordRef?.current?.value).then((userCredentials: any) => {
+        setLoading(false);
+        navigate("/Login");
       });
     } catch {
-      setError("Failed to send email. Please make sure you have a valid email address");
+      setError("Failed to create an account");
+      setLoading(false);
     }
-    setLoading(false);
+  }
+
+  const passwordConfirmProps = { // make sure all required component's inputs/Props keys&types match
+    label: "Confirm Password",
   }
 
   return (
@@ -60,10 +68,10 @@ export default function Login (props: ILoginProps) {
               <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
                   oh sheet.
               </Heading>
-              <Text as='sup'>Alpha</Text>
+              <Text as='sup'>Mini</Text>
             </Flex>
             <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
-              Forgot Password
+              Sign up for your account
             </Heading>
           </Stack>
         </Stack>
@@ -75,15 +83,18 @@ export default function Login (props: ILoginProps) {
           borderRadius={{ base: 'none', sm: 'xl' }}
         >
           <Stack spacing="6">
-            {error ? <Text color="red.400">{error}</Text> : null}
-            <Stack spacing="5">
-              <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
-                <Input id="email" type="email" ref={emailRef} />
-              </FormControl>
-              <Button disabled={loading} variant="solid" onClick={handleSubmit}>Reset Password</Button>
-            </Stack>
-
+            {error ? <Text color="red">{error}</Text> : null}
+            <form onSubmit={handleSubmit}>
+              <Stack spacing="5">
+                <FormControl>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input id="email" type="email" ref={emailRef} />
+                </FormControl>
+                <PasswordField ref={passwordRef} />
+                <PasswordField {...passwordConfirmProps} ref={passwordConfirmRef}/>
+                <Button type="submit" disabled={loading} variant="solid" onClick={handleSubmit}>Sign up</Button>
+              </Stack>
+            </form>
             <Stack spacing="6">
               <HStack>
                 <Divider />
@@ -93,9 +104,9 @@ export default function Login (props: ILoginProps) {
                 <Divider />
               </HStack>
               <HStack spacing="1" justify="center">
-                <Text>Remember your password?</Text>
+                <Text>Already have an account?</Text>
                 <Button variant="link" colorScheme="blue">
-                  <Link to="/login">Log in</Link>
+                    <Link to="/Login">Log in</Link>
                 </Button>
               </HStack>
             </Stack>
