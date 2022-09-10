@@ -4,7 +4,7 @@ import './index.css';
 import App from './views/App/App';
 import { AuthProvider } from "contexts/AuthContext"
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-console.log(`Starting oh sheet.`, __filename, __dirname);
+console.log(`Starting oh sheet.`);
 
 const app = express();
 
