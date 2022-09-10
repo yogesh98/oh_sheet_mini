@@ -68,7 +68,7 @@ export default function Signup (props: ISignupProps) {
               <Heading size={useBreakpointValue({ base: '2xl', md: '4xl' })}>
                   oh sheet.
               </Heading>
-              <Text as='sup'>Closed Alpha</Text>
+              <Text as='sup'>Alpha</Text>
             </Flex>
             <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
               Sign up for your account
