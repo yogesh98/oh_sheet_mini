@@ -2,8 +2,8 @@
   "name": "server",
   "productName": "server",
   "version": "1.0.0",
-  "description": "My Electron application description",
-  "main": "src/index.js",
+  "description": "Live production autonomy made easy",
+  "main": "index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -14,7 +14,7 @@
   "keywords": [],
   "author": {
     "name": "yogesh98",
-    "email": "yogesh.patel0221@gmail.com"
+    "email": "me@yogeshp.dev"
   },
   "license": "MIT",
   "config": {
@@ -45,10 +45,8 @@
     }
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
-    "express": "^4.18.1",
-    "http": "^0.0.1-security"
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.66",

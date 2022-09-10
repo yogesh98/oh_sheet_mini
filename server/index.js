@@ -1,8 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
@@ -10,9 +7,25 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const nodePath = path.join('file://', __dirname, 'src/app.js');
+console.log(nodePath);
+let loaded = false;
+(async () => {
+  try {
+    const { serveReactApp } = await import(nodePath);
+    // Start express server that is serving reactapp
+    loaded = await serveReactApp();
+  } catch (error) {
+    console.log(error);
+    loaded = error;
+  }
+})();
+
+let mainWindow;
+
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -20,31 +33,8 @@ const createWindow = () => {
     },
   });
 
-  const reactApp = express();
-  reactApp.disable('x-powered-by');
-
-  // setup cors for all routes
-  reactApp.use(cors());
-
-  // enable pre-flight cors
-  reactApp.options('*', cors());
-
-  // Implement middleware
-  reactApp.use(express.urlencoded({ extended: true }));
-  reactApp.use(express.json({ limit: '1mb' }));
-  // serve react
-  reactApp.use(express.static(path.join(__dirname, '../../client/build')));
-
-  reactApp.get('*', (req, res) => {
-    res.sendFile(
-      resolve(__dirname, '../../client/build/index.html'),
-    );
-  });
-
-
   // and load the index.html of the app.
-  mainWindow.loadURL("http://localhost:3000")
-  // mainWindow.loadFile(path.join(__dirname, '../../client/build/index.html'));
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -53,7 +43,15 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  setTimeout(() => {
+    // Load page served by node
+    const reactApp = "http://localhost:4001/";
+    mainWindow.loadURL(reactApp);
+  }, 2000);
+
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
