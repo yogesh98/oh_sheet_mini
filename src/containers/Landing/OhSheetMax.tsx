@@ -40,7 +40,7 @@ export default function OhSheetMax (props: IOhSheetMaxProps) {
                         </Button>
                     </Link>
                     <RouterLink 
-                        to="/maxBuilds/oh sheet-1.0.4.dmg"
+                        to="/maxBuilds/oh sheet-1.0.5.dmg"
                         target="_blank"
                         download
                     >
